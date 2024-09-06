@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\section;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class SectionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        section::factory()->count(15)->create();
     }
 }

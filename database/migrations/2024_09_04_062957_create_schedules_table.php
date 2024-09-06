@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('section_id')->constrained('sections')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->enum('type', ['class', 'exam', 'activity']);
+            $table->enum('type', ['weekly', 'exam', 'activity']);
 
             // weekly schedules
-            $table->enum('day_of_week', ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'])->nullable();
+            $table->set('day_of_week', ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'])->nullable();
             // examentions or activity
             $table->date('date')->nullable();
             $table->time('start_time')->nullable();

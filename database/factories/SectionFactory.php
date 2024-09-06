@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\SchoolClass;
+use App\Models\section;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SectionFactory extends Factory
 {
+    protected $model = section::class;
+
     /**
      * Define the model's default state.
      *
@@ -16,8 +20,10 @@ class SectionFactory extends Factory
      */
     public function definition(): array
     {
+        $class = SchoolClass::inRandomOrder()->first();
         return [
-            //
+            'name' => $this->faker->randomElement(['first section', 'second section', 'third section', 'forth section', 'fiveth section', 'sixth section']),
+            'school_class_id' => $class->id
         ];
     }
 }

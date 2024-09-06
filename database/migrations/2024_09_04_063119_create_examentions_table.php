@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('examentions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('school_class_id')->constrained('school_classes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->date('exam_date');
             $table->datetime('start_time');
             $table->dateTime('end_time');
-            $table->enum('type', ['midterm Exam', 'final Exam']);
+            $table->enum('type', ['chapter tests', 'midterm Exam', 'final Exam']);
             $table->timestamps();
         });
     }

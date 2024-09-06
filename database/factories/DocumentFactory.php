@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Document;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class DocumentFactory extends Factory
 {
+
+    protected $model = Document::class;
     /**
      * Define the model's default state.
      *
@@ -16,8 +20,11 @@ class DocumentFactory extends Factory
      */
     public function definition(): array
     {
+        $subject = Subject::inRandomOrder()->first();
         return [
-            //
+            'subject_id' => $subject->id,
+            'document_name' => $subject->name,
+            'document_path' => $this->faker->filePath()
         ];
     }
 }

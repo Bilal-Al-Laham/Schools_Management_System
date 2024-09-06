@@ -29,5 +29,5 @@ class Assignment extends Model
     public function section() : BelongsTo {
         return $this->belongsTo(section::class);
     }
-}
+} 
  

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fee;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class FeeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Fee::factory()->count(3)->create();
     }
 }

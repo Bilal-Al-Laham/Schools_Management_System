@@ -23,13 +23,19 @@ class AssignmentFactory extends Factory
      */
     public function definition(): array
     {
+        // $teacher = User::where('role', 'teacher')->inRandomOrder()->first();
+        // $subject = Subject::where('teacher_id', $teacher->id)->inRandomOrder()->first();
+
+        $teacher = User::where('role', 'teacher')->inRandomOrder()->first() ?? User::factory()->create(['role' => 'teacher']);
+        $subject = Subject::where('teacher_id', $teacher->id)->inRandomOrder()->first() ?? Subject::factory()->create(['teacher_id' => $teacher->id]);
+
         return [
-            'subject_id' => Subject::factory(), 
-            'teacher_id' => User::factory(), 
+            'subject_id' => $subject->id, 
+            'teacher_id' => $teacher->id, 
             'section_id' => section::factory(), 
-            'title' => $this->faker->title, 
+            'title' => $this->faker->sentence, 
             'description' => $this->faker->paragraph, 
-            'due_date' => Carbon::now()->addDays(rand(1, 30))
+            'due_date' => Carbon::now()->addDays(rand(1, 7))
         ];
     }
 }

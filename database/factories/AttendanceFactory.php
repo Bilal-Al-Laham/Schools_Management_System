@@ -21,9 +21,12 @@ class AttendanceFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::whereIn('role', ['student', 'teacher'])->inRandomOrder()->first();
+            // $date = Carbon::now()->subDays(rand(0,30))->toDateString();
+
         return [
-            'user_id' => User::factory(),
-            'role' => $this->faker->randomElement(['student', 'teacher']),
+            'user_id' => $user->id,
+            'role' => $user->role,
             'date' => Carbon::today(),
             'status' => $this->faker->randomElement(['present', 'absent', 'late', 'excuse']),
             'notes' => $this->faker->optional()->sentence

@@ -13,6 +13,7 @@ class Examention extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'subject_id',
         'school_class_id',
         'exam_date',
