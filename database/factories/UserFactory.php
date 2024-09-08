@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'school_id' => School::factory(),
             'birthdate' => $this->faker->date(),
             'address' => $this->faker->address,
-            'email_verified_at' => now(),
+            // 'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];
     }

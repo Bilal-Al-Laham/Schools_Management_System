@@ -17,7 +17,10 @@ class section extends Model
     ];
 
     public function school_class(): BelongsTo {
-        return $this->belongsTo(SchoolClass::class);
+        return $this->belongsTo(SchoolClass::class)
+        ->withDefault([
+            'name' => 'no school class'
+        ]);
     }
 
     public function schedules() :HasMany {

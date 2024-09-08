@@ -17,6 +17,9 @@ class Document extends Model
     ];
 
     public function subject() : BelongsTo {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Subject::class)
+        ->withDefault([
+            'name' => 'no subjects'
+        ]);
     }
 }

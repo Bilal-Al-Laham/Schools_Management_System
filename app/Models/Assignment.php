@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use function Symfony\Component\String\b;
+
 class Assignment extends Model
 {
     use HasFactory;
@@ -19,15 +21,24 @@ class Assignment extends Model
     ];
 
     public function subject() : BelongsTo {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Subject::class)
+        ->withDefault([
+            'name' => 'no subjects'
+        ]);
     }
     
     public function teacher() : BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'taecher_id')
+        ->withDefault([
+            'name' => 'no taechers'
+        ]);
     }
 
     public function section() : BelongsTo {
-        return $this->belongsTo(section::class);
+        return $this->belongsTo(section::class)
+        ->withDefault([
+            'name' => 'no sections'
+        ]);
     }
 } 
  

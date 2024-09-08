@@ -23,7 +23,10 @@ class Subject extends Model
     }
 
     public function teacher() : BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'teacher_id')
+        ->withDefault([
+            'name' => 'no teacher'
+        ]);
     }
 
     public function examentions() : BelongsToMany {

@@ -17,10 +17,16 @@ class Note extends Model
     ];
 
     public function student() : BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'student_id')
+        ->withDefault([
+            'name' => 'no student'
+        ]);
     }
 
     public function teacher() : BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+        ->withDefault([
+            'name' => 'no teacher'
+        ]);
     }
 }

@@ -23,7 +23,10 @@ class Examention extends Model
     ];
 
     public function school_class() : BelongsTo {
-        return $this->belongsTo(SchoolClass::class);
+        return $this->belongsTo(SchoolClass::class)
+        ->withDefault([
+            'name' => 'no school classes'
+        ]);
     }
 
     public function subjects() : BelongsToMany {

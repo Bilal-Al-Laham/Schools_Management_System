@@ -28,6 +28,9 @@ class Schedule extends Model
     }
 
     public function section() : BelongsTo {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class)
+        ->withDefault([
+            'name' => 'no section'
+        ]);
     }
 }

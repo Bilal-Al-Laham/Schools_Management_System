@@ -22,7 +22,10 @@ class SchoolClass extends Model
     protected $hidden = [];
 
     public function school(): BelongsTo {
-        return $this->belongsTo(School::class);
+        return $this->belongsTo(School::class)
+        ->withDefault([
+            'name' => 'no school'
+        ]);
     }
 
     public function subjects() : BelongsToMany {

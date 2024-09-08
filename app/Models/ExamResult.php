@@ -17,10 +17,16 @@ class ExamResult extends Model
     ];
 
     public function examention() : BelongsTo {
-        return $this->belongsTo(Examention::class);
+        return $this->belongsTo(Examention::class)
+        ->withDefault([
+            'name' => 'no examentions'
+        ]);
     }
 
     public function student() : BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'student_id')
+        ->withDefault([
+            'name' => 'no students'
+        ]);
     }
 }
