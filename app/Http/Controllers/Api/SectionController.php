@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\SchoolClass;
-use App\Http\Requests\StoreSchoolClassRequest;
-use App\Http\Requests\UpdateSchoolClassRequest;
+use App\Http\Controllers\Controller;
+use App\Models\section;
+use App\Http\Requests\StoresectionRequest;
+use App\Http\Requests\UpdatesectionRequest;
 
-class SchoolClassController extends Controller
+class SectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class SchoolClassController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSchoolClassRequest $request)
+    public function store(StoresectionRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class SchoolClassController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SchoolClass $schoolClass)
+    public function show(section $section)
     {
         //
     }
@@ -43,7 +44,7 @@ class SchoolClassController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SchoolClass $schoolClass)
+    public function edit(section $section)
     {
         //
     }
@@ -51,7 +52,7 @@ class SchoolClassController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSchoolClassRequest $request, SchoolClass $schoolClass)
+    public function update(UpdatesectionRequest $request, section $section)
     {
         //
     }
@@ -59,7 +60,7 @@ class SchoolClassController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SchoolClass $schoolClass)
+    public function destroy(section $section)
     {
         //
     }

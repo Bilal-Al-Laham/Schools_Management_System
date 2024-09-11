@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Examention;
-use App\Http\Requests\StoreExamentionRequest;
-use App\Http\Requests\UpdateExamentionRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Document;
+use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Requests\UpdateDocumentRequest;
 
-class ExamentionController extends Controller
+class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ExamentionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreExamentionRequest $request)
+    public function store(StoreDocumentRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ExamentionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Examention $examention)
+    public function show(Document $document)
     {
         //
     }
@@ -43,7 +44,7 @@ class ExamentionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Examention $examention)
+    public function edit(Document $document)
     {
         //
     }
@@ -51,7 +52,7 @@ class ExamentionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateExamentionRequest $request, Examention $examention)
+    public function update(UpdateDocumentRequest $request, Document $document)
     {
         //
     }
@@ -59,7 +60,7 @@ class ExamentionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Examention $examention)
+    public function destroy(Document $document)
     {
         //
     }

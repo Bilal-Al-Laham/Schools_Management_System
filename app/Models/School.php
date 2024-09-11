@@ -14,8 +14,10 @@ class School extends Model
     protected $fillable = [
         'name', 
         'address', 
-        'phone'
+        'phone_number'
     ];
+
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function school_classes() : HasMany {
         return $this->hasMany(SchoolClass::class);

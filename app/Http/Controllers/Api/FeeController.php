@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Assignment;
-use App\Http\Requests\StoreAssignmentRequest;
-use App\Http\Requests\UpdateAssignmentRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Fee;
+use App\Http\Requests\StoreFeeRequest;
+use App\Http\Requests\UpdateFeeRequest;
 
-class AssignmentController extends Controller
+class FeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAssignmentRequest $request)
+    public function store(StoreFeeRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class AssignmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Assignment $assignment)
+    public function show(Fee $fee)
     {
         //
     }
@@ -43,7 +44,7 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Assignment $assignment)
+    public function edit(Fee $fee)
     {
         //
     }
@@ -51,7 +52,7 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAssignmentRequest $request, Assignment $assignment)
+    public function update(UpdateFeeRequest $request, Fee $fee)
     {
         //
     }
@@ -59,7 +60,7 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Assignment $assignment)
+    public function destroy(Fee $fee)
     {
         //
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSchoolRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateSchoolRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,13 @@ class UpdateSchoolRequest extends FormRequest
      */
     public function rules(): array
     {
+        $schoolId = $this->route('id');
+        
         return [
-            //
+            'name' => 'sometimes|string',
+            'address' => 'sometimes|string',
+            'phone_number' => ['sometimes', 'string' , 'regex:/^09\d{8}$/',
+            Rule::unique('schools', 'phone_number')->ignore($schoolId)]
         ];
     }
 }

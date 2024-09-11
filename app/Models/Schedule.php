@@ -23,6 +23,8 @@ class Schedule extends Model
         'notes'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function subjects() : BelongsToMany {
         return $this->belongsToMany(Subject::class, 'schedule_subject', 'schedule_id', 'subject_id');
     }

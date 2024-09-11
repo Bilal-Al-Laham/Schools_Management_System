@@ -19,6 +19,8 @@ class Library extends Model
         'quantity',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function school() : BelongsTo {
         return $this->belongsTo(School::class)
         ->withDefault([

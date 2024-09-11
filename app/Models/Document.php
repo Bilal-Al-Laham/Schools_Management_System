@@ -16,6 +16,8 @@ class Document extends Model
         'document_path'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function subject() : BelongsTo {
         return $this->belongsTo(Subject::class)
         ->withDefault([

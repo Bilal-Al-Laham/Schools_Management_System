@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Fee;
-use App\Http\Requests\StoreFeeRequest;
-use App\Http\Requests\UpdateFeeRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Attendance;
+use App\Http\Requests\StoreAttendanceRequest;
+use App\Http\Requests\UpdateAttendanceRequest;
 
-class FeeController extends Controller
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class FeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFeeRequest $request)
+    public function store(StoreAttendanceRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class FeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fee $fee)
+    public function show(Attendance $attendance)
     {
         //
     }
@@ -43,7 +44,7 @@ class FeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fee $fee)
+    public function edit(Attendance $attendance)
     {
         //
     }
@@ -51,7 +52,7 @@ class FeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFeeRequest $request, Fee $fee)
+    public function update(UpdateAttendanceRequest $request, Attendance $attendance)
     {
         //
     }
@@ -59,7 +60,7 @@ class FeeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fee $fee)
+    public function destroy(Attendance $attendance)
     {
         //
     }

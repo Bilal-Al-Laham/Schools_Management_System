@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\ExamResult;
-use App\Http\Requests\StoreExamResultRequest;
-use App\Http\Requests\UpdateExamResultRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Library;
+use App\Http\Requests\StoreLibraryRequest;
+use App\Http\Requests\UpdateLibraryRequest;
 
-class ExamResultController extends Controller
+class LibraryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ExamResultController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreExamResultRequest $request)
+    public function store(StoreLibraryRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ExamResultController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ExamResult $examResult)
+    public function show(Library $library)
     {
         //
     }
@@ -43,7 +44,7 @@ class ExamResultController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ExamResult $examResult)
+    public function edit(Library $library)
     {
         //
     }
@@ -51,7 +52,7 @@ class ExamResultController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateExamResultRequest $request, ExamResult $examResult)
+    public function update(UpdateLibraryRequest $request, Library $library)
     {
         //
     }
@@ -59,7 +60,7 @@ class ExamResultController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ExamResult $examResult)
+    public function destroy(Library $library)
     {
         //
     }

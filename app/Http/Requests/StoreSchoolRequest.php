@@ -11,7 +11,7 @@ class StoreSchoolRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreSchoolRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'phone_number' => 'required|string|regex:/^09\d{8}$/|unique:schools,phone_number,'
         ];
+        
     }
 }

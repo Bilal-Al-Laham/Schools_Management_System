@@ -19,7 +19,7 @@ class SchoolClass extends Model
     ];
 
     
-    protected $hidden = [];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function school(): BelongsTo {
         return $this->belongsTo(School::class)

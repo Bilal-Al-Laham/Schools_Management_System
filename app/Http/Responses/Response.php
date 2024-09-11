@@ -2,6 +2,7 @@
 
 namespace App\Http\Responses;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 class Response
@@ -21,9 +22,9 @@ class Response
             'status' => false,
             'data' => $data,
             // 'message' => [
-            //     'Error_details' => $e->getMessage(),
-            //     'File' => $e->getFile(),
-            //     'Line' => $e->getLine(),
+                // 'Error_details' => $exception->getMessage(),
+                // 'File' => $exception->getFile(),
+                // 'Line' => $exception->getLine(),
             // ]
         ] , $status);
     }

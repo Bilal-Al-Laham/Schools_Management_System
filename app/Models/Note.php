@@ -16,6 +16,8 @@ class Note extends Model
         'content'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function student() : BelongsTo {
         return $this->belongsTo(User::class, 'student_id')
         ->withDefault([

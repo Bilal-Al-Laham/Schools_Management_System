@@ -20,6 +20,8 @@ class Assignment extends Model
         'due_date'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function subject() : BelongsTo {
         return $this->belongsTo(Subject::class)
         ->withDefault([
@@ -41,4 +43,3 @@ class Assignment extends Model
         ]);
     }
 } 
- 

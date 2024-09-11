@@ -16,6 +16,8 @@ class section extends Model
         'school_class_id'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function school_class(): BelongsTo {
         return $this->belongsTo(SchoolClass::class)
         ->withDefault([

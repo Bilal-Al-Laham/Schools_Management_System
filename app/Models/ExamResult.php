@@ -16,6 +16,8 @@ class ExamResult extends Model
         'score'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function examention() : BelongsTo {
         return $this->belongsTo(Examention::class)
         ->withDefault([

@@ -26,13 +26,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
             'role' => $this->faker->randomElement(['student', 'teacher', 'manager']),
             'phone_number' => '+963 9' . $this->faker->numerify('## ### ###'),
-            'school_id' => School::factory(),
+            'school_id' => School::inRandomOrder()->first()->id,
             'birthdate' => $this->faker->date(),
             'address' => $this->faker->address,
             // 'email_verified_at' => now(),

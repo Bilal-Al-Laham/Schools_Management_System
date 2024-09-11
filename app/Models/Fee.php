@@ -18,6 +18,8 @@ class Fee extends Model
         'status'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function student() : BelongsTo {
         return $this->belongsTo(User::class, 'student_id')
         ->withDefault([

@@ -18,6 +18,8 @@ class Subject extends Model
         'teacher_id'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function school_class() : BelongsToMany {
         return $this->belongsToMany(SchoolClass::class, 'class_subject', 'subject_id', 'school_class_id');
     }

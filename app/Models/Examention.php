@@ -29,6 +29,8 @@ class Examention extends Model
         ]);
     }
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function subjects() : BelongsToMany {
         return $this->belongsToMany(Subject::class, 'subject_examention', 'examention_id', 'subject_id');
     }

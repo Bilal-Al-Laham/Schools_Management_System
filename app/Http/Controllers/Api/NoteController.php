@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Library;
-use App\Http\Requests\StoreLibraryRequest;
-use App\Http\Requests\UpdateLibraryRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Note;
+use App\Http\Requests\StoreNoteRequest;
+use App\Http\Requests\UpdateNoteRequest;
 
-class LibraryController extends Controller
+class NoteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class LibraryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLibraryRequest $request)
+    public function store(StoreNoteRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class LibraryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Library $library)
+    public function show(Note $note)
     {
         //
     }
@@ -43,7 +44,7 @@ class LibraryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Library $library)
+    public function edit(Note $note)
     {
         //
     }
@@ -51,7 +52,7 @@ class LibraryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLibraryRequest $request, Library $library)
+    public function update(UpdateNoteRequest $request, Note $note)
     {
         //
     }
@@ -59,7 +60,7 @@ class LibraryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Library $library)
+    public function destroy(Note $note)
     {
         //
     }
