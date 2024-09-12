@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\loginUserRequest;
+use App\Http\Requests\registerUserRequest;
 use App\Http\Responses\Response;
 use App\Models\School;
 use App\Models\User;
+use App\Services\UserService;
+use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,40 +22,18 @@ use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
-    // public function __construct(){
-    //     $this->middleware('verified');
-    // }
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
 
-    public function register(Request $request){
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'string', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'school_id' => ['required', 'integer', 'exists:schools,id'],
-            'phone_number' => ['required', 'string', 'regex:/^09[0-9]{8}$/']
-        ]);
-
-        if ($validator->fails()) {
-            return Response::Error($validator->errors(), 422);
-        }
+    public function register(registerUserRequest $request){
 
         try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'school_id' => $request->school_id,
-                'phone_number' => $request->phone_number
-            ]);
-
-            $user['token'] = $user->createToken('personalAccessToken')->plainTextToken;
-
-            $school = School::find($request->school_id);
-            if (!$school) {
-                return Response::Error('School not found.', 404);
-            }
-            $user['school_id'] = $school->name;
+            $user = $this->userService->signup($request->validated());
 
             // $studentRole = Role::query()->where('name', 'student')->first();
 
@@ -67,12 +49,12 @@ class AuthController extends Controller
             // $user= $this->appendRolesAndPermissions($user);
             // event(new Registered($user));
             $message = __('User created successfully');
-
             return Response::Success($user, $message, 201);
 
-
+        } catch (ValidationException $th) {
+            return Response::Error(['errors' => $th->getMessage()], 422);
         } catch (Exception $e) {
-            return Response::Error('An unexpected error occurred:' . $e->getMessage(), 500);
+            return Response::Error('An unexpected error occurred:' . $e->getMessage() . $e->getFile() . $e->getLine(), 500);
         }
     }
 
@@ -106,40 +88,19 @@ class AuthController extends Controller
         return Response::Success($user, $message, 201);
     }
     
-    public function login(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'string','email'],
-            'password' => ['required', 'string']
-        ]);
-        
-        if($validator->fails()){
-            return Response::Error($validator->errors());
-        }
+    public function login(loginUserRequest $request){
+        $validateData = $request->validated();
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return Response::Error('Invalid email or password', 401);
-        }
-
-        if($user->hasVerifiedEmail()){
-            return Response::Error('please verify your email address', 403);
-        }
-
-        $token = $user->createToken('personalAccessToken')->plainTextToken;
-
-        $userdata = ['user' => $user , 'token' => $token];
+        $user = $this->userService->signIn($validateData);
         $message = __('user logged in successfuly');
 
-        return Response::Success($userdata, $message, 200 );
+        return Response::Success($user, $message, 200 );
     }
 
-    public function profile_info($id){
+    public function profile_info(){
         try {
-        $user = Auth::user();
-        $user = User::findOrFail($id);
-        $message = "This is the $id th user's profile ";
-        
+        $user = $this->userService->userProfile();
+        $message = "This is info of $user->name's profile.";
         return Response::Success($user, $message);
 
         } catch (Exception $th){
@@ -148,12 +109,10 @@ class AuthController extends Controller
         }
     }
 
-    public function logout($id){
+    public function logout(){
         try{
-            $user = User::findOrFail($id);
-            $user->tokens()->delete();
-            $message = "The $id th user logged out successfully";
-            return Response::Success($user, $message);
+            $user = $this->userService->signOut();
+            return $user;
         } catch(Exception $t){
             $php_errormsg = 'falid in logged out ';
             return Response::Error($php_errormsg . ', ' . $t->getMessage(), 500);
