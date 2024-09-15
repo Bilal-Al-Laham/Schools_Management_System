@@ -28,14 +28,12 @@ class User extends Authenticatable
         'password',
         'role',
         'phone_number',
-        'school_id',
-        'birthdate',
-        'address',
+        'school_class_id',
     ];
 
     public function school(): BelongsTo
     {
-        return $this->belongsTo(School::class)
+        return $this->belongsTo(SchoolClass::class)
         ->withDefault([
             'name' => 'no school'
         ]);

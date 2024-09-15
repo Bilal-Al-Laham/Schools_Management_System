@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('school_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_id')->constrained('schools')->cascadeOnUpdate()->cascadeOnDelete();
             $table->enum('name', ['first class', 'second class', 'third class', 'forth class', 'fiveth class', 'sixth class']);
             $table->string('year')->default(now()->year);
             $table->timestamps();

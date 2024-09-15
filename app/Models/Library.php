@@ -12,7 +12,6 @@ class Library extends Model
     use HasFactory;
 
     protected $fillable = [
-        'school_id',
         'title',
         'author',
         'isbn',
@@ -20,12 +19,5 @@ class Library extends Model
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
-
-    public function school() : BelongsTo {
-        return $this->belongsTo(School::class)
-        ->withDefault([
-            'name' => 'no school'
-        ]);
-    } 
 
 }

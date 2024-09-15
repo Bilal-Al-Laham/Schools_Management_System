@@ -21,11 +21,9 @@ class SchoolClassFactory extends Factory
      */
     public function definition(): array
     {
-        $school = School::inRandomOrder()->first();
         $year = Carbon::now()->year;
         return [
             'name' => $this->faker->randomElement(['first class', 'second class', 'third class', 'forth class', 'fiveth class', 'sixth class']),
-            'school_id' => $school->id,
             'year' => $year
         ];
     }

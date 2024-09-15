@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -15,9 +14,9 @@ class RolesPermissionsSeeder extends Seeder
     public function run(): void
     {
         // Create Roles
-        $adminRole = Role::create(['name'=>'admin']);
-        $teacherRole = Role::create(['name'=>'teacher']);
-        $studentRole = Role::create(['name'=>'student']);
+        $adminRole = Role::updateOrCreate(['name'=>'admin'], ['guard_name' => 'web']);
+        $teacherRole = Role::updateOrCreate(['name'=>'teacher'], ['guard_name' => 'web']);
+        $studentRole = Role::updateOrCreate(['name'=>'student'], ['guard_name' => 'web']);
 
         // Define Permissions
         $permissions= [
@@ -39,7 +38,6 @@ class RolesPermissionsSeeder extends Seeder
             "name" => 'Admin User',
             'email' => 'Admin@example.com',
             'password' => bcrypt('password'),
-            'blocked' => 0,
         ]);
         $adminuser->assignRole($adminRole);
 
@@ -47,23 +45,21 @@ class RolesPermissionsSeeder extends Seeder
         $permissions = $adminRole->permissions()->pluck('name')->toArray();
         $adminuser->givePermissionTo($permissions);
 
-        $clientuser=\App\Models\User::factory()->create([
-            'name' => 'Client User',
-            'email' => 'Client@example.com',
+        $studentuser=\App\Models\User::factory()->create([
+            'name' => 'student User',
+            'email' => 'student@example.com',
             'password' => bcrypt('password'),
-            'blocked' => 0,
         ]);
-        $clientuser->assignRole($studentRole);
+        $studentuser->assignRole($studentRole);
 
         // Assign permissions associated with the role to the user
         $permissions = $studentRole->permissions()->pluck('name')->toArray();
-        $clientuser->givePermissionTo($permissions);
+        $studentuser->givePermissionTo($permissions);
 
         $teacheruser=\App\Models\User::factory()->create([
             'name' => 'Planner User',
             'email' => 'planner@example.com',
             'password' => bcrypt('password'),
-            'blocked' => 0,
         ]);
         $teacheruser->assignRole($teacherRole);
 
@@ -75,7 +71,6 @@ class RolesPermissionsSeeder extends Seeder
             'name' => 'Planner User 2',
             'email' => 'planner2@example.com',
             'password' => bcrypt('password'),
-            'blocked' => 0,
         ]);
         $taecheruser2->assignRole($teacherRole);
 

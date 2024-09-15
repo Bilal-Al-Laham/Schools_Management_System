@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('libraries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_id')->constrained('schools')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('title');
             $table->string('author');
             $table->string('isbn')->unique();

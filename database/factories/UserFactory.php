@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\School;
+use App\Models\SchoolClass;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -33,9 +34,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'role' => $this->faker->randomElement(['student', 'teacher', 'manager']),
             'phone_number' => '+963 9' . $this->faker->numerify('## ### ###'),
-            'school_id' => School::inRandomOrder()->first()->id,
-            'birthdate' => $this->faker->date(),
-            'address' => $this->faker->address,
+            'school_class_id' => SchoolClass::inRandomOrder()->first()->id,
             // 'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];

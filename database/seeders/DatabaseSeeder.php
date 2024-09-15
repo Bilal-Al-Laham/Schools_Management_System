@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            SchoolSeeder::class,
             SchoolClassSeeder::class,
             SectionSeeder::class,
             UserSeeder::class,
@@ -33,7 +32,8 @@ class DatabaseSeeder extends Seeder
             FeeSeeder::class,
             LibrarySeeder::class,
             NoteSeeder::class,
-            ScheduleSeeder::class
+            ScheduleSeeder::class,
+            RolesPermissionsSeeder::class,
         ]);
     }
 }

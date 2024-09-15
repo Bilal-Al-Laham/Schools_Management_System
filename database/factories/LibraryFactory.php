@@ -20,10 +20,8 @@ class LibraryFactory extends Factory
      */
     public function definition(): array
     {
-        $school = School::inRandomOrder()->first();
 
         return [
-            'school_id' => $school->id,
             'title' => $this->faker->sentence(3),
             'author' => $this->faker->userName,
             'isbn' => $this->faker->unique()->isbn10(),

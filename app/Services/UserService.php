@@ -2,11 +2,16 @@
 
 namespace App\Services;
 
+use App\Http\Responses\Response;
 use App\Models\School;
+use App\Models\SchoolClass;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 interface UserServiceInterface
 {
@@ -30,37 +35,48 @@ class UserService implements UserServiceInterface
 
     public function signup(array $data)
     {
+        // hash password
         $data['password'] = Hash::make($data['password']);
+        
+        // cretae user 
         $user = $this->userRepository->createUser($data);
 
+        // create API Token
         $user['token'] = $user->createToken('personalAccessToken')->plainTextToken;
 
-        $school = School::find($data['school_id']);
-        if (!$school) {
-            throw new \Exception('School not found.', 404);;
-            
+        // Verify School Class 
+        $class = SchoolClass::find($data['school_class_id']);
+        if (!$class) {
+            // throw new \Exception('School Class not found.', 404);
+            abort(404, 'school class not found');
         }
-        $user['school_id'] = $school->name;
+        // reference class name into class_id
+        $user['school_class_id'] = $class->name;
+        
+        // assign role to user 
+        $studentRole = Role::query()->where('name', 'student')->first();
 
-        return $user;
-
-        // $clientRole = Role::query()->where('name','client')->first();
-        // $user->assignRole($clientRole);
+        if (!$studentRole){
+            throw new \Exception("Role 'student' not found", 500);
+        }
+        $user->assignRole($studentRole);
 
         // Assign permissions associated with the role to the user
-        // $permissions = $clientRole->permissions()->pluck('name')->toArray();
-        // $user->givePermissionTo($permissions);
-
+        $permissions = $studentRole->permissions()->pluck('name')->toArray();
+        $user->givePermissionTo($permissions);
+        
         // Load the user's roles and permissions
-        // $user->load('roles','permissions');
-
+        $user->load('roles','permissions');
+        
         // Reload the user instance to get updated roles and permissions
-        // $user= $this->appendRolesAndPermissions($user);
+        $user= $this->appendRolesAndPermissions($user);
 
         // $qrCode = QrCode::format('png')->size(200)->generate($user->id);
         // $qrCodePath = 'qrcodes/user_'.$user->id.'.png';
         // Storage::disk('public')->put($qrCodePath,$qrCode);
         // $user->qr_code_path = $qrCodePath;
+        return $user;
+
     }
     public function registerAsPlanner($request):array
     {

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 interface UserRepositoryInterface
 {
@@ -32,6 +31,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function updateLastLogin(User $user)
     {
+        // $user->last_login = now();
         $user->save();
     }
 }

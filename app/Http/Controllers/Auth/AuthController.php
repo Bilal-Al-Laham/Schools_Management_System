@@ -6,18 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\loginUserRequest;
 use App\Http\Requests\registerUserRequest;
 use App\Http\Responses\Response;
-use App\Models\School;
 use App\Models\User;
 use App\Services\UserService;
 use Dotenv\Exception\ValidationException;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Auth\Events\Registered;
 use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
@@ -30,24 +23,10 @@ class AuthController extends Controller
     }
 
 
-    public function register(registerUserRequest $request){
+    public function register(RegisterUserRequest $request){
 
         try {
             $user = $this->userService->signup($request->validated());
-
-            // $studentRole = Role::query()->where('name', 'student')->first();
-
-            // if ($studentRole) {
-            //     $user->assignRole($studentRole);
-            //     $permissions = $studentRole->permissions()->pluck('name')->toArray();
-            //     $user->givePermissionTo($permissions);
-            // } else {
-            //     return Response::Error('Role "student" not found.', 500);
-            // }
-            // $user->load('roles','permissions');
-
-            // $user= $this->appendRolesAndPermissions($user);
-            // event(new Registered($user));
             $message = __('User created successfully');
             return Response::Success($user, $message, 201);
 
@@ -88,7 +67,7 @@ class AuthController extends Controller
         return Response::Success($user, $message, 201);
     }
     
-    public function login(loginUserRequest $request){
+    public function login(LoginUserRequest $request){
         $validateData = $request->validated();
 
         $user = $this->userService->signIn($validateData);

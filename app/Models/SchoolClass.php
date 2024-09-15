@@ -14,19 +14,11 @@ class SchoolClass extends Model
 
     protected $fillable = [
         'name',
-        'school_id',
         'year'
     ];
 
     
     protected $hidden = ['created_at', 'updated_at'];
-
-    public function school(): BelongsTo {
-        return $this->belongsTo(School::class)
-        ->withDefault([
-            'name' => 'no school'
-        ]);
-    }
 
     public function subjects() : BelongsToMany {
         return $this->BelongsToMany(Subject::class, 'class_subject', 'school_class_id', 'subject_id');
@@ -35,7 +27,9 @@ class SchoolClass extends Model
     public function sections(): HasMany {
         return $this->hasMany(section::class);
     }
-
+    public function students(): HasMany {
+        return $this->hasMany(User::class, 'student_id');
+    }
     public function examentions() :HasMany {
         return $this->hasMany(Examention::class);
     }
