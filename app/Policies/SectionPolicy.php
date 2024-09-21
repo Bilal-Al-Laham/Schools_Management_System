@@ -21,7 +21,7 @@ class SectionPolicy
      */
     public function view(User $user, section $section): bool
     {
-        //
+        return $user->hasPermissionTo('index_assignment');
     }
 
     /**
@@ -29,7 +29,9 @@ class SectionPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return in_array($user->role, ['admin', 'manager']);
+        // return $user->hasAnyRole(['student', 'teacher', 'manager', 'admin']);
+
     }
 
     /**

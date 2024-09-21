@@ -11,7 +11,7 @@ class UpdatesectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdatesectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'sometimes|string|exists:sections,name',
+            'school_class_id' => 'sometimes|integer|exists:school_classes,id'
         ];
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('school_classes', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['first class', 'second class', 'third class', 'forth class', 'fiveth class', 'sixth class']);
+            $table->string('name');
             $table->string('year')->default(now()->year);
             $table->timestamps();
         });

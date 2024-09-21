@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSchoolClassRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateSchoolClassRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,7 @@ class UpdateSchoolClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-        ];
+            'name' => 'sometimes|string|exists:school_classes,name',
+            ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Http\Requests\StoreAssignmentRequest;
 use App\Http\Requests\UpdateAssignmentRequest;
+use Illuminate\Support\Facades\DB;
 
 class AssignmentController extends Controller
 {
@@ -14,7 +15,33 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-        //
+        // $assignments = Assignment::orderBy('id', 'desc')->take(5)->get();
+        // $assignments = Assignment::where('due_date', '', 2)->get();
+        // dd($assignments);
+
+
+
+        // $assignments =  Assignment::chunk(9, function ($assignments){
+        //     foreach ($assignments as $assignment){
+        //         echo $assignment->section . '<br>';
+        //     }
+        // });
+
+        $assignments = Assignment::orderBy('created_at')->get();
+        // dd($assignments);
+        return view('index', [
+            'assignments' => $assignments
+        ]);
+        // $assignments = DB::table('assignments')->get();
+        // $assignments = DB::table('assignments')->find(1);
+        
+
+        // return view('index')->with('assignments', $assignments);
+        // return view('index', compact('assignments'));
+        // return view('index', [
+        //     'assignments' => DB::table('assignments')->get()
+        // ]);
+        return view('index');
     }
 
     /**

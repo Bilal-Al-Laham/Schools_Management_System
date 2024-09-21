@@ -31,11 +31,11 @@ class User extends Authenticatable
         'school_class_id',
     ];
 
-    public function school(): BelongsTo
+    public function schoolClass(): BelongsTo
     {
-        return $this->belongsTo(SchoolClass::class)
+        return $this->belongsTo(SchoolClass::class, 'school_class_id')
         ->withDefault([
-            'name' => 'no school'
+            'name' => 'no school Class'
         ]);
     }
 

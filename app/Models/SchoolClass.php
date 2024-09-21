@@ -28,7 +28,7 @@ class SchoolClass extends Model
         return $this->hasMany(section::class);
     }
     public function students(): HasMany {
-        return $this->hasMany(User::class, 'student_id');
+        return $this->hasMany(User::class, 'school_class_id');
     }
     public function examentions() :HasMany {
         return $this->hasMany(Examention::class);

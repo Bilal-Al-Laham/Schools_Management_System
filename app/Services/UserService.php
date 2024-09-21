@@ -52,7 +52,7 @@ class UserService implements UserServiceInterface
         }
         // reference class name into class_id
         $user['school_class_id'] = $class->name;
-        
+        $user['school_class'] = $class->name;
         // assign role to user 
         $studentRole = Role::query()->where('name', 'student')->first();
 

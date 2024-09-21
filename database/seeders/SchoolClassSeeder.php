@@ -13,6 +13,27 @@ class SchoolClassSeeder extends Seeder
      */
     public function run(): void
     {
-        SchoolClass::factory()->count(3)->create();
+        // SchoolClass::factory()->count(6)->create();
+        $classes = [
+            'first class',
+            'second class',
+            'third class',
+            'fourth class',
+            'fifth class',
+            'sixth class',
+            'seventh class',
+            'eighth class',
+            'ninth class',
+            'tenth class',
+            'eleventh class',
+            'twelfth class',
+        ];
+
+        foreach ($classes as $class) {
+            SchoolClass::create([
+                'name' => $class,
+                'year' => now()->year
+            ]);
+        }
     }
 }

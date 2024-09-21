@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AssignmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    config('services.mailgun.domain');
     return view('welcome');
 });
+
+Route::get('/hello', [AssignmentController::class, 'index']);
+
+Route::view('/blog', 'index', ['name' => 'Bilal']);

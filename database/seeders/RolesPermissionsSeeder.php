@@ -17,33 +17,56 @@ class RolesPermissionsSeeder extends Seeder
         $adminRole = Role::updateOrCreate(['name'=>'admin'], ['guard_name' => 'web']);
         $teacherRole = Role::updateOrCreate(['name'=>'teacher'], ['guard_name' => 'web']);
         $studentRole = Role::updateOrCreate(['name'=>'student'], ['guard_name' => 'web']);
+        $managerRole = Role::updateOrCreate(['name'=>'manager'], ['guard_name' => 'web']);
 
         // Define Permissions
         $permissions= [
             'index_assignment',
+            'add_assignment',
             'update_hall',
-            'create_hall',
+            'create_section',
             'index_hall'
         ];
         foreach($permissions as $permissionName)
         {
-            Permission::findOrCreate($permissionName,'web');
+            Permission::updateOrCreate(['name' => $permissionName, 'guard_name' => 'web']);
         }
 
         // Assign permissions to roles
         $adminRole->syncPermissions($permissions); // delete old permissions and keep those inside the $permissions
+        $managerRole->syncPermissions($permissions);
         $studentRole->givePermissionTo(['index_assignment']); // add permissions on top of old ones
+        $teacherRole->givePermissionTo(['add_assignment']); // add permissions on top of old ones
 
-        $adminuser=\App\Models\User::factory()->create([
-            "name" => 'Admin User',
-            'email' => 'Admin@example.com',
-            'password' => bcrypt('password'),
-        ]);
+        $adminuser= \App\Models\User::updateOrCreate(
+            ['role' => 'admin'],
+            [
+                'name' => 'Admin User',
+                'email' => 'Admin@example.com',
+                'password' => bcrypt('password'),
+                'phone_number' => '+963 999 999 999',
+                'school_class_id' => null,
+                'section_id' => null
+            ]
+        );
         $adminuser->assignRole($adminRole);
 
         // Assign permissions associated with the role to the user
         $permissions = $adminRole->permissions()->pluck('name')->toArray();
         $adminuser->givePermissionTo($permissions);
+
+        $managerUser = \App\Models\User::updateOrCreate(
+            ['role' => 'manager'],
+            [
+                'name' => "manager User",
+                'email' => "manager@example.com",
+                'password' => bcrypt("manager"),
+                'phone_number' => '+963 999 999 998',
+                'school_class_id' => null,
+                'section_id' => null
+            ]
+        );
+        $managerUser->assignRole($managerRole);
 
         $studentuser=\App\Models\User::factory()->create([
             'name' => 'student User',
@@ -56,27 +79,37 @@ class RolesPermissionsSeeder extends Seeder
         $permissions = $studentRole->permissions()->pluck('name')->toArray();
         $studentuser->givePermissionTo($permissions);
 
-        $teacheruser=\App\Models\User::factory()->create([
-            'name' => 'Planner User',
-            'email' => 'planner@example.com',
-            'password' => bcrypt('password'),
-        ]);
-        $teacheruser->assignRole($teacherRole);
-
+        $teacherUser = \App\Models\User::updateOrCreate(
+            ['role' => 'teacher'], // Use role as unique condition
+            [
+                'name' => 'Teacher User',
+                'email' => 'teacher@example.com',
+                'password' => bcrypt('password'),
+                'phone_number' => '+963 999 999 996',
+                'school_class_id' => null,
+                'section_id' => null
+            ]);
+            $teacherUser->assignRole($teacherRole);
+        
+    
         // Assign permissions associated with the role to the user
         $permissions = $teacherRole->permissions()->pluck('name')->toArray();
-        $teacheruser->givePermissionTo($permissions);
+        $teacherUser->givePermissionTo($permissions);
 
-        $taecheruser2=\App\Models\User::factory()->create([
-            'name' => 'Planner User 2',
-            'email' => 'planner2@example.com',
-            'password' => bcrypt('password'),
-        ]);
-        $taecheruser2->assignRole($teacherRole);
-
+        $teacherUser2 = \App\Models\User::updateOrCreate(
+            ['role' => 'teacher'], // Use role as unique condition
+            [
+                'name' => 'Teacher2 User',
+                'email' => 'teacher2@example.com',
+                'password' => bcrypt('password'),
+                'phone_number' => '+963 999 999 995',
+                'school_class_id' => null,
+                'section_id' => null
+            ]);
+            $teacherUser2->assignRole($teacherRole);
+        
         // Assign permissions associated with the role to the user
         $permissions = $teacherRole->permissions()->pluck('name')->toArray();
-        $taecheruser2->givePermissionTo($permissions);
-
+        $teacherUser2->givePermissionTo($permissions);
     }
 }

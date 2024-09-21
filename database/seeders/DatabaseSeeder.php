@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SchoolClassSeeder::class,
             SectionSeeder::class,
             UserSeeder::class,
+            RolesPermissionsSeeder::class,
             SubjectSeeder::class,
             AssignmentSeeder::class,
             AttendanceSeeder::class,
@@ -33,7 +34,6 @@ class DatabaseSeeder extends Seeder
             LibrarySeeder::class,
             NoteSeeder::class,
             ScheduleSeeder::class,
-            RolesPermissionsSeeder::class,
         ]);
     }
 }

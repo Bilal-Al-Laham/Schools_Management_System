@@ -13,6 +13,12 @@ class LibrarySeeder extends Seeder
      */
     public function run(): void
     {
-        Library::factory()->count(5)->create();
+        Library::create([
+            'title',
+            'author',
+            'isbn',
+            'quantity',
+        ]);
+
     }
 }

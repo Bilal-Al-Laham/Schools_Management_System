@@ -27,14 +27,15 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        
+        $role = $this->faker->randomElement(['student', 'teacher', 'manager', 'admin']);
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
             'role' => $this->faker->randomElement(['student', 'teacher', 'manager']),
             'phone_number' => '+963 9' . $this->faker->numerify('## ### ###'),
-            'school_class_id' => SchoolClass::inRandomOrder()->first()->id,
+            'school_class_id' => $role === 'admin' ? null : SchoolClass::inRandomOrder()->first()->id,
+            'section_id' => $role === 'admin' ? null : $this->faker->randomElement([null, SchoolClass::inRandomOrder()->first()->section_id]),
             // 'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];

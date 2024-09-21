@@ -3,65 +3,57 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\section;
 use App\Http\Requests\StoresectionRequest;
 use App\Http\Requests\UpdatesectionRequest;
+use App\Http\Responses\Response;
+use App\Models\section;
+use App\Services\SectionService;
+use App\Services\SectionServiceInterface;
+use Illuminate\Http\Request;
 
 class SectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    protected SectionService $sectionService;
+    
+    public function __construct(SectionServiceInterface $sectionServiceInteraface) {
+        $this->sectionService = $sectionServiceInteraface;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+            return $this->sectionService->allSections($request);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(StoresectionRequest $request)
     {
-        //
+        // $this->authorize('create', section::class);
+        $ValidatedData = $request->validated();
+        $section = $this->sectionService->createSection($ValidatedData);
+        $message = "section created successfully";
+        return Response::Success($section, $message, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(section $section)
     {
-        //
+        $sectionItem = $this->sectionService->indexOneSection($section);
+        $message = "$section->name retrived successfully";
+        return Response::Success($sectionItem, $message, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(section $section)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdatesectionRequest $request, section $section)
     {
-        //
+        // $this->authorize('update', $section);
+        $validatedData = $request->validated();
+        $sectionItem = $this->sectionService->updateSection($validatedData, $section);
+        $message = "{$section->name} updated successfully";
+        return Response::Success($sectionItem, $message, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(section $section)
     {
-        //
+        // $this->authorize('delete', $section);
+        $sectionItem = $this->sectionService->deleteSection($section);
+        $message = "Section deleted successfully";
+        return Response::Success(null, $message, 200);
     }
 }

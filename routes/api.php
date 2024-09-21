@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\LibraryController;
 use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SchoolClassController;
-use App\Http\Controllers\Api\SchoolController;
 use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Auth\AuthController;
@@ -41,16 +40,28 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 // Auth::routes(['verify' => true]);
+Route::controller(SchoolClassController::class)
+->prefix('class')
+->group(function () {
+    Route::get('/index', 'index');
+    Route::get('/showItem/{id}', 'show')->name('Class.show');
+    Route::get('/showItem/{id}/users', 'show')->name('Class.show');
+    Route::post('/storeItem', 'store');
+    Route::post('/updateItem/{id}', 'update');
+    Route::delete('/deleteItem/{id}', 'destroy');    
+});
 
-Route::get('/allSchools', [SchoolController::class, 'index']);
-Route::get('/schoolDetails/{id}', [SchoolController::class, 'show'])->name('school.show');
-Route::get('/schoolDetails/{id}/users', [SchoolController::class, 'show'])->name('school.show');
-Route::post('/storeSchool', [SchoolController::class, 'store']);
-Route::post('/updateSchool/{id}', [SchoolController::class, 'update']);
-Route::delete('/deleteSchool/{id}', [SchoolController::class, 'destroy']);
+Route::controller(SectionController::class)
+->prefix('section')
+->group(function () {
+    Route::get('/index', 'index');
+    Route::get('/showItem/{section}', 'show');
+    Route::post('/storeItem', 'store');
+    Route::post('/updateItem/{section}', 'update');
+    Route::delete('/deleteItem/{section}', 'destroy');
+});
 
-Route::get('/allClasses', [SchoolClassController::class, 'index']);
-Route::get('/allSections', [SectionController::class, 'index']);
+
 Route::get('/allSubjects', [SubjectController::class, 'index']);
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
 Route::get('/allAssignments', [AssignmentController::class, 'index']);

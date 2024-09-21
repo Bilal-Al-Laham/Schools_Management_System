@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_class_id')->constrained('school_classes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('school_class_id')->nullable()->constrained('school_classes')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('section_id')->nullable()->constrained('sections')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['student', 'teacher', 'manager', 'admin'])->default('student');
+            $table->string('role')->default('student');
             $table->string('phone_number');
             // $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
