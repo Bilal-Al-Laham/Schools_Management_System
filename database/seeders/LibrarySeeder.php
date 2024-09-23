@@ -13,12 +13,12 @@ class LibrarySeeder extends Seeder
      */
     public function run(): void
     {
-        Library::create([
-            'title',
-            'author',
-            'isbn',
-            'quantity',
-        ]);
+        // Library::create([
+        //     'title',
+        //     'author',
+        //     'isbn',
+        //     'quantity',
+        // ]);
 
     }
 }

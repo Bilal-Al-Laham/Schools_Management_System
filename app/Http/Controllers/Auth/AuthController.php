@@ -71,7 +71,7 @@ class AuthController extends Controller
         $validateData = $request->validated();
 
         $user = $this->userService->signIn($validateData);
-        $message = __('user logged in successfuly');
+        $message = __('user logged in successfully');
 
         return Response::Success($user, $message, 200 );
     }
@@ -83,7 +83,7 @@ class AuthController extends Controller
         return Response::Success($user, $message);
 
         } catch (Exception $th){
-            $php_errormsg = 'faild to get user profile data';
+            $php_errormsg = 'failed to get user profile data';
             return Response::Error($php_errormsg . ", " . $th->getMessage(), 500);
         }
     }
@@ -96,25 +96,5 @@ class AuthController extends Controller
             $php_errormsg = 'falid in logged out ';
             return Response::Error($php_errormsg . ', ' . $t->getMessage(), 500);
         }
-    }
-    private function appendRolesAndPermissions($user)
-    {
-        $roles = [];
-        foreach ($user->roles as $role){
-            $roles[] = $role->name;
-        }
-
-        unset($user['roles']);
-        $user['roles'] = $roles;
-
-        $permissions = [];
-        foreach ($user->permissions as $permission){
-            $permissions[] = $permission->name;
-        }
-        unset($user['permissions']);
-        $user['permissions'] = $permissions;
-
-        return $user;
-
     }
 }

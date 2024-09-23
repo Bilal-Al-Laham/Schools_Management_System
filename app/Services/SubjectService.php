@@ -43,7 +43,7 @@ class SubjectService implements SubjectServiceInterface
 
             $message = $schoolClassName ? "These are all subjects in our school for the schoolClass : {$schoolClassName}" : 'These are all subject in our school';
 
-            return Response::Success($subjects, $message, 200);
+            return [$subjects, $message];
         } catch (\Throwable $th) {
             $php_errormsg = $th->getMessage();
             throw new \Exception('failed when retrieve all subjects: '. $php_errormsg);
@@ -73,8 +73,8 @@ class SubjectService implements SubjectServiceInterface
     public function indexOneSubject(Subject $subject){
         try {
             return $this->subjectRepository->fetchOneSubject($subject);
-        // } catch (ModelNotFoundException $m) {
-        //     throw new \Exception("subject not found with name:"  . "{$subject->name}", 404);
+        } catch (ModelNotFoundException $m) {
+            throw new \Exception("subject not found with name:"  . "{$subject->name}", 404);
         } catch (\Throwable $th) {
             throw new \Exception('failed to retrieve subject: ' . $th->getMessage(), 500);
         }
@@ -85,14 +85,14 @@ class SubjectService implements SubjectServiceInterface
         // $this->authorize('update', $subject);
         DB::beginTransaction();
         try {
-            // $schoolClass = $this->subjectRepository->class_for_subject($data);
-            // if (!$schoolClass) {
-            //     throw new \Exception('school class not found.', 404);
-            // }
+            $schoolClass = $this->subjectRepository->class_for_subject($data);
+            if (!$schoolClass) {
+                throw new \Exception('school class not found.', 404);
+            }
 
-            // if (!$schoolClass->students()->exists()) {
-            //     throw new MissingRelationException('no students assigned to this class.');
-            // }
+            if (!$schoolClass->students()->exists()) {
+                throw new MissingRelationException('no students assigned to this class.');
+            }
 
             // subjectBusinessRules::checkMinimumStudents($schoolClass);
             $subject->update($data);
@@ -118,9 +118,9 @@ class SubjectService implements SubjectServiceInterface
         // $this->authorize('delete', $subject);
         DB::beginTransaction();
         try {       
-            // if ($subject->schedules()->exists() || $subject->assignment()->exists()) {
-            //     throw new MissingRelationException('Cannot delete subject with existing schedules or assignments.');
-            // }
+            if ($subject->schedules()->exists() || $subject->assignment()->exists()) {
+                throw new MissingRelationException('Cannot delete subject with existing schedules or assignments.');
+            }
             $subjectItem = $subject->forceDelete();
             if (!$subject) {
                 throw new \Exception('school class not found.', 404);
