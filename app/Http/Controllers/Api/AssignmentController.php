@@ -27,21 +27,21 @@ class AssignmentController extends Controller
         //     }
         // });
 
-        $assignments = Assignment::orderBy('created_at')->get();
+        // $assignments = Assignment::orderBy('created_at' , 'desc')->get();
         // dd($assignments);
-        return view('index', [
-            'assignments' => $assignments
-        ]);
+        // return view('step', [
+        //     'assignments' => $assignments
+        // ]);
         // $assignments = DB::table('assignments')->get();
-        // $assignments = DB::table('assignments')->find(1);
+        $assignments = DB::table('assignments')->find(1);
         
 
-        // return view('index')->with('assignments', $assignments);
+        return view('step')->with('assignments', $assignments);
         // return view('index', compact('assignments'));
         // return view('index', [
         //     'assignments' => DB::table('assignments')->get()
         // ]);
-        return view('index');
+        // return view('assignments.index');
     }
 
     /**

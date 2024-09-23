@@ -61,8 +61,15 @@ Route::controller(SectionController::class)
     Route::delete('/deleteItem/{section}', 'destroy');
 });
 
-
-Route::get('/allSubjects', [SubjectController::class, 'index']);
+Route::controller(SubjectController::class)
+->prefix('subject')
+->group(function () {
+    Route::get('/allSubjects', [SubjectController::class, 'index']);
+    Route::get('/showItem/{subject}', [SubjectController::class, 'show']);
+    Route::get('/storeItem', [SubjectController::class, 'store']);
+    Route::get('/updateItem/{subject}', [SubjectController::class, 'update']);
+    Route::get('/deleteItem/{subject}', [SubjectController::class, 'destroy']);
+});
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
 Route::get('/allAssignments', [AssignmentController::class, 'index']);
 Route::get('/allAttendances', [AttendanceController::class, 'index']);

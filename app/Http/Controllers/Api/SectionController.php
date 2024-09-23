@@ -15,8 +15,8 @@ class SectionController extends Controller
 {
     protected SectionService $sectionService;
     
-    public function __construct(SectionServiceInterface $sectionServiceInteraface) {
-        $this->sectionService = $sectionServiceInteraface;
+    public function __construct(SectionServiceInterface $sectionServiceInterface) {
+        $this->sectionService = $sectionServiceInterface;
     }
 
     public function index(Request $request)
@@ -24,7 +24,7 @@ class SectionController extends Controller
             return $this->sectionService->allSections($request);
     }
     
-    public function store(StoresectionRequest $request)
+    public function store(StoreSectionRequest $request)
     {
         // $this->authorize('create', section::class);
         $ValidatedData = $request->validated();
@@ -36,11 +36,11 @@ class SectionController extends Controller
     public function show(section $section)
     {
         $sectionItem = $this->sectionService->indexOneSection($section);
-        $message = "$section->name retrived successfully";
+        $message = "$section->name retrieved successfully";
         return Response::Success($sectionItem, $message, 200);
     }
 
-    public function update(UpdatesectionRequest $request, section $section)
+    public function update(UpdateSectionRequest $request, section $section)
     {
         // $this->authorize('update', $section);
         $validatedData = $request->validated();

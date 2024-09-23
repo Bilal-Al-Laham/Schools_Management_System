@@ -39,7 +39,7 @@ class Subject extends Model
         return $this->belongsToMany(Schedule::class, 'schedule_subject', 'subject_id', 'schedule_id');
     }    
 
-    public function assignment() :HasMany {
+    public function assignments() :HasMany {
         return $this->hasMany(Assignment::class);
     }
 
