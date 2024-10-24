@@ -20,10 +20,6 @@ class Subject extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function school_class() : BelongsToMany {
-        return $this->belongsToMany(SchoolClass::class, 'class_subject', 'subject_id', 'school_class_id');
-    }
-
     public function teacher() : BelongsTo {
         return $this->belongsTo(User::class, 'teacher_id')
         ->withDefault([
@@ -31,15 +27,19 @@ class Subject extends Model
         ]);
     }
 
+    public function school_class() : BelongsToMany {
+        return $this->belongsToMany(SchoolClass::class, 'class_subjects')->withPivot('subject_id', 'school_class_id');
+    }
+
     public function examentions() : BelongsToMany {
-        return $this->belongsToMany(Examention::class, 'subject_examention', 'subject_id', 'examention_id');
+        return $this->belongsToMany(Examention::class, 'subjects_examentions')->withPivot( 'subject_id', 'examention_id');
     }
 
     public function schedules(): BelongsToMany {
-        return $this->belongsToMany(Schedule::class, 'schedule_subject', 'subject_id', 'schedule_id');
-    }    
+        return $this->belongsToMany(Schedule::class, 'schedule_subject' )->withPivot( 'subject_id', 'schedule_id');
+    }
 
-    public function assignment() :HasMany {
+    public function assignments() :HasMany {
         return $this->hasMany(Assignment::class);
     }
 

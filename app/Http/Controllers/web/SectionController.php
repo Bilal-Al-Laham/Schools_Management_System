@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Library;
-use App\Http\Requests\StoreLibraryRequest;
-use App\Http\Requests\UpdateLibraryRequest;
+use Illuminate\Http\Request;
 
-class LibraryController extends Controller
+class SectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +26,7 @@ class LibraryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLibraryRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -36,7 +34,7 @@ class LibraryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Library $library)
+    public function show(string $id)
     {
         //
     }
@@ -44,7 +42,7 @@ class LibraryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Library $library)
+    public function edit(string $id)
     {
         //
     }
@@ -52,7 +50,7 @@ class LibraryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLibraryRequest $request, Library $library)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -60,7 +58,7 @@ class LibraryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Library $library)
+    public function destroy(string $id)
     {
         //
     }

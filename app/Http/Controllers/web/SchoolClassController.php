@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Note;
-use App\Http\Requests\StoreNoteRequest;
-use App\Http\Requests\UpdateNoteRequest;
+use Illuminate\Http\Request;
 
-class NoteController extends Controller
+class SchoolClassController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +26,7 @@ class NoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreNoteRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -36,7 +34,7 @@ class NoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Note $note)
+    public function show(string $id)
     {
         //
     }
@@ -44,7 +42,7 @@ class NoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Note $note)
+    public function edit(string $id)
     {
         //
     }
@@ -52,7 +50,7 @@ class NoteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateNoteRequest $request, Note $note)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -60,7 +58,7 @@ class NoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Note $note)
+    public function destroy(string $id)
     {
         //
     }

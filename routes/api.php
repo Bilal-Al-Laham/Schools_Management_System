@@ -48,7 +48,7 @@ Route::controller(SchoolClassController::class)
     Route::get('/showItem/{id}/users', 'show')->name('Class.show');
     Route::post('/storeItem', 'store');
     Route::post('/updateItem/{id}', 'update');
-    Route::delete('/deleteItem/{id}', 'destroy');    
+    Route::delete('/deleteItem/{id}', 'destroy');
 });
 
 Route::controller(SectionController::class)
@@ -62,7 +62,13 @@ Route::controller(SectionController::class)
 });
 
 
-Route::get('/allSubjects', [SubjectController::class, 'index']);
+Route::controller(SubjectController::class)
+->prefix('subject')
+->group(function () {
+    Route::get('/allSubjects', [SubjectController::class, 'index']);
+});
+
+
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
 Route::get('/allAssignments', [AssignmentController::class, 'index']);
 Route::get('/allAttendances', [AttendanceController::class, 'index']);
@@ -70,5 +76,3 @@ Route::get('/allDocuments', [DocumentController::class, 'index']);
 Route::get('/allExamentions', [ExamentionController::class, 'index']);
 Route::get('/allExamResults', [ExamResultController::class, 'index']);
 Route::get('/allFees', [FeeController::class, 'index']);
-Route::get('/allLibraries', [LibraryController::class, 'index']);
-Route::get('/allNotes', [NoteController::class, 'index']);

@@ -17,13 +17,13 @@ class SchoolClass extends Model
         'year'
     ];
 
-    
+
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function subjects() : BelongsToMany {
-        return $this->BelongsToMany(Subject::class, 'class_subject', 'school_class_id', 'subject_id');
+    public function subjects() : HasMany {
+        return $this->hasMany(Subject::class, 'subject_id');
     }
-    
+
     public function sections(): HasMany {
         return $this->hasMany(section::class);
     }

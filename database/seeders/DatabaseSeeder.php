@@ -31,8 +31,6 @@ class DatabaseSeeder extends Seeder
             ExamentionSeeder::class,
             ExamResultSeeder::class,
             FeeSeeder::class,
-            LibrarySeeder::class,
-            NoteSeeder::class,
             ScheduleSeeder::class,
         ]);
     }

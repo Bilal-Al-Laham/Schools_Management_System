@@ -61,15 +61,6 @@ class User extends Authenticatable
     public function fee(): HasOne {
         return $this->hasOne(Fee::class, 'student_id');
     }
-    
-    public function notesAsStudent(): HasMany {
-        return $this->hasMany(Note::class, 'student_id');
-    }
-
-    public function notesAsTeacher(): HasMany {
-        return $this->hasMany(Note::class, 'teacher_id');
-    }
-
 
     /**
      * The attributes that should be hidden for serialization.
