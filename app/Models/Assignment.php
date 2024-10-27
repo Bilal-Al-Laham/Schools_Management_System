@@ -11,7 +11,6 @@ use function Symfony\Component\String\b;
 class Assignment extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'subject_id',
         'teacher_id',
@@ -28,7 +27,7 @@ class Assignment extends Model
             'name' => 'no subjects'
         ]);
     }
-    
+
     public function teacher() : BelongsTo {
         return $this->belongsTo(User::class, 'taecher_id')
         ->withDefault([
@@ -42,4 +41,4 @@ class Assignment extends Model
             'name' => 'no sections'
         ]);
     }
-} 
+}

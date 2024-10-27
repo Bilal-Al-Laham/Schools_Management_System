@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\loginUserRequest;
@@ -12,6 +12,7 @@ use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -66,7 +67,7 @@ class AuthController extends Controller
 
         return Response::Success($user, $message, 201);
     }
-    
+
     public function login(LoginUserRequest $request){
         $validateData = $request->validated();
 
@@ -97,6 +98,18 @@ class AuthController extends Controller
             return Response::Error($php_errormsg . ', ' . $t->getMessage(), 500);
         }
     }
+
+    public function Adminlogin(loginUserRequest $request){
+        $data = [];
+        try {
+            $data = $this->userService->Adminlogin($request->validated());
+            return Response::Success($data['user'],$data['message']);
+        } catch (Throwable $th) {
+            $message = $th->getMessage();
+            return Response::Error($data, $message);
+        }
+    }
+
     private function appendRolesAndPermissions($user)
     {
         $roles = [];

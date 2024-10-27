@@ -4,7 +4,9 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\Attendance;
 use App\Models\section;
+use App\Policies\AttendancePolicy;
 use App\Policies\SectionPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         section::class => SectionPolicy::class,
+        Attendance::class => AttendancePolicy::class,
     ];
 
     /**

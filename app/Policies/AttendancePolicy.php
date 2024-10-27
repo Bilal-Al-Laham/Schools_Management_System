@@ -13,7 +13,7 @@ class AttendancePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
@@ -21,7 +21,7 @@ class AttendancePolicy
      */
     public function view(User $user, Attendance $attendance): bool
     {
-        //
+        return $user->role === 'admin' || 'teacher';
     }
 
     /**
@@ -29,7 +29,7 @@ class AttendancePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
@@ -37,7 +37,7 @@ class AttendancePolicy
      */
     public function update(User $user, Attendance $attendance): bool
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
@@ -45,7 +45,7 @@ class AttendancePolicy
      */
     public function delete(User $user, Attendance $attendance): bool
     {
-        //
+        return $user->role === 'admin';
     }
 
     /**
@@ -53,7 +53,7 @@ class AttendancePolicy
      */
     public function restore(User $user, Attendance $attendance): bool
     {
-        //
+        return $user->role === 'admin' || 'teacher';
     }
 
     /**
@@ -61,6 +61,6 @@ class AttendancePolicy
      */
     public function forceDelete(User $user, Attendance $attendance): bool
     {
-        //
+        return $user->role === 'admin';
     }
 }

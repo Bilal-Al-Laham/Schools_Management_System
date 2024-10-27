@@ -37,14 +37,14 @@ class UserService implements UserServiceInterface
     {
         // hash password
         $data['password'] = Hash::make($data['password']);
-        
-        // cretae user 
+
+        // cretae user
         $user = $this->userRepository->createUser($data);
 
         // create API Token
         $user['token'] = $user->createToken('personalAccessToken')->plainTextToken;
 
-        // Verify School Class 
+        // Verify School Class
         $class = SchoolClass::find($data['school_class_id']);
         if (!$class) {
             // throw new \Exception('School Class not found.', 404);
@@ -53,7 +53,7 @@ class UserService implements UserServiceInterface
         // reference class name into class_id
         $user['school_class_id'] = $class->name;
         $user['school_class'] = $class->name;
-        // assign role to user 
+        // assign role to user
         $studentRole = Role::query()->where('name', 'student')->first();
 
         if (!$studentRole){
@@ -64,10 +64,10 @@ class UserService implements UserServiceInterface
         // Assign permissions associated with the role to the user
         $permissions = $studentRole->permissions()->pluck('name')->toArray();
         $user->givePermissionTo($permissions);
-        
+
         // Load the user's roles and permissions
         $user->load('roles','permissions');
-        
+
         // Reload the user instance to get updated roles and permissions
         $user= $this->appendRolesAndPermissions($user);
 
@@ -142,9 +142,9 @@ class UserService implements UserServiceInterface
             throw new \Exception('please verify your email address', 403);
         }
         $token = $user->createToken('personalAccessToken')->plainTextToken;
-        
+
         if (!is_null($user)) {
-            if (!Auth::attempt($data)) {                
+            if (!Auth::attempt($data)) {
                 $message = 'Email Or Password Is Not Valid';
                 throw new \Exception($message, 401);
             }
@@ -167,30 +167,30 @@ class UserService implements UserServiceInterface
         // }
         // return ['user' => $user , 'message' => $message , 'status'=>$status];
     }
-    // public function Adminlogin($request):array
-    // {
-    //     $user = User::query()
-    //         ->where('email',$request['email'])
-    //         ->first();
+    public function Adminlogin($request):array
+    {
+        $user = User::query()
+            ->where('email',$request['email'])
+            ->first();
 
-    //     if (!is_null($user)) {
-    //         if (!Auth::attempt($request) || $request['email'] != 'Admin@example.com') {
-    //             $message = 'You are not the admin';
-    //             $status = 401;
-    //         }
-    //         else {
-    //             $user = $this->appendRolesAndPermissions($user);
-    //             $user['token'] = $user->createToken("PassportToken")->accessToken;
-    //             $message = 'Hello Admin';
-    //             $status = 200;
-    //         }
-    //     }
-    //     else{
-    //         $message = 'invalid Token';
-    //         $status = 404;
-    //     }
-    //     return ['user' => $user , 'message' => $message , 'status'=>$status];
-    // }
+        if (!is_null($user)) {
+            if (!Auth::attempt($request) || $request['email'] != 'Admin@example.com') {
+                $message = 'You are not the admin';
+                $status = 401;
+            }
+            else {
+                $user = $this->appendRolesAndPermissions($user);
+                $user['token'] = $user->createToken("PassportToken")->accessToken;
+                $message = 'Hello Admin';
+                $status = 200;
+            }
+        }
+        else{
+            $message = 'invalid Token';
+            $status = 404;
+        }
+        return ['user' => $user , 'message' => $message , 'status'=>$status];
+    }
     public function userProfile()
     {
         $user = Auth::user();

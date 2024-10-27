@@ -13,7 +13,7 @@ interface SectionRepositoryInterface
     public function class_for_section(array $data);
     public function fetchOneSection(section $section);
     public function findSection($id);
-    
+
 }
 class SectionRepository implements SectionRepositoryInterface
 {
@@ -50,7 +50,7 @@ class SectionRepository implements SectionRepositoryInterface
         }
         return $schoolClass;
     }
-    
+
     public function fetchOneSection(section $section){
     return section::with(['school_class', 'schedules', 'assignments'])->where('id', $section->id)->firstOrFail();
     }

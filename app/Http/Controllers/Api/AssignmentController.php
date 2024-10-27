@@ -34,7 +34,7 @@ class AssignmentController extends Controller
         ]);
         // $assignments = DB::table('assignments')->get();
         // $assignments = DB::table('assignments')->find(1);
-        
+
 
         // return view('index')->with('assignments', $assignments);
         // return view('index', compact('assignments'));

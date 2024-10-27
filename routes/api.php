@@ -6,13 +6,11 @@ use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\ExamentionController;
 use App\Http\Controllers\Api\ExamResultController;
 use App\Http\Controllers\Api\FeeController;
-use App\Http\Controllers\Api\LibraryController;
-use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SchoolClassController;
 use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\SubjectController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/adminLogin', [AuthController::class, 'Adminlogin']);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::delete('/logout', [AuthController::class, 'logout']);
@@ -65,13 +64,24 @@ Route::controller(SectionController::class)
 Route::controller(SubjectController::class)
 ->prefix('subject')
 ->group(function () {
-    Route::get('/allSubjects', [SubjectController::class, 'index']);
+    Route::get('/index', [SubjectController::class, 'index']);
+    Route::get('/showItem/{id}', [SubjectController::class, 'show']);
+    Route::get('/subforclass/{id}', [SubjectController::class, 'subjecstForClass']);
+    Route::post('/updateSubject/{id}', [SubjectController::class, 'update']);
+    Route::get('/ClassForSubjects/{id}', [SubjectController::class, 'indexClassSubjects']);
+
 });
 
+Route::controller(AttendanceController::class)
+->prefix('attendance')
+// ->middleware('auth')
+->group(function ()
+{
+    Route::get('/allAttendances', [AttendanceController::class, 'index']);
+});
 
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
 Route::get('/allAssignments', [AssignmentController::class, 'index']);
-Route::get('/allAttendances', [AttendanceController::class, 'index']);
 Route::get('/allDocuments', [DocumentController::class, 'index']);
 Route::get('/allExamentions', [ExamentionController::class, 'index']);
 Route::get('/allExamResults', [ExamResultController::class, 'index']);

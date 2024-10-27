@@ -27,12 +27,12 @@ class Subject extends Model
         ]);
     }
 
-    public function school_class() : BelongsToMany {
-        return $this->belongsToMany(SchoolClass::class, 'class_subjects')->withPivot('subject_id', 'school_class_id');
+    public function school_class() : BelongsTo {
+        return $this->belongsTo(SchoolClass::class, 'school_class_id');
     }
 
-    public function examentions() : BelongsToMany {
-        return $this->belongsToMany(Examention::class, 'subjects_examentions')->withPivot( 'subject_id', 'examention_id');
+    public function examentions() : HasMany {
+        return $this->hasMany(Examention::class);
     }
 
     public function schedules(): BelongsToMany {

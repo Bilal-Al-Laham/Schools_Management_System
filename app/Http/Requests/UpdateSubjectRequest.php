@@ -11,7 +11,7 @@ class UpdateSubjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'school_class_name' => 'required|string|exists:school_classes,name',
+            'teacher_name' => 'required|string|exists:users,name'  // تأكد من التهجئة الصحيحة هنا
         ];
     }
 }

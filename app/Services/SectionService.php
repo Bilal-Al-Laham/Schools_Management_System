@@ -32,7 +32,7 @@ class SectionService implements SectionServiceInterface
     {
         $this->sectionRepository = $sectionRepositoryInterface;
     }
-    
+
     public function allSections(Request $request)
     {
         try {
@@ -42,7 +42,7 @@ class SectionService implements SectionServiceInterface
             $sortDirection = $request->get('sort_direction', 'asc');
             $query->orderBy($sortBy, $sortDirection);
             $sections = $query->paginate($request->get('per_page', 5));
-            
+
             $schoolClassName = null;
             if ($request->has('school_class_id')) {
                 $schoolClass = SchoolClass::find(id: $request->school_class_id);
@@ -74,7 +74,7 @@ class SectionService implements SectionServiceInterface
             DB::rollBack();
             Log::error('Failed to create section', ['error' => $th->getMessage()]);
             $php_errormsg = $th->getMessage();
-            throw new \Exception('faild to create a section for this class: ' . $php_errormsg);
+            // throw new \Exception('faild to create a section for this class: ' . $php_errormsg);
         }
     }
 
@@ -106,7 +106,7 @@ class SectionService implements SectionServiceInterface
             $section->update($data);
             $section['school_class_id'] = $schoolClass->name;
             DB::commit();
-            return $section; 
+            return $section;
 
         } catch (MissingRelationException $m) {
             DB::rollBack();
@@ -120,12 +120,12 @@ class SectionService implements SectionServiceInterface
         }
     }
 
-    
+
     public function deleteSection(section $section)
     {
         // $this->authorize('delete', $section);
         DB::beginTransaction();
-        try {       
+        try {
             // if ($section->schedules()->exists() || $section->assignment()->exists()) {
             //     throw new MissingRelationException('Cannot delete section with existing schedules or assignments.');
             // }
