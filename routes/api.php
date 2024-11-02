@@ -40,45 +40,43 @@ Route::middleware(['auth:api'])->group(function () {
 
 // Auth::routes(['verify' => true]);
 Route::controller(SchoolClassController::class)
-->prefix('class')
-->group(function () {
-    Route::get('/index', 'index');
-    Route::get('/showItem/{id}', 'show')->name('Class.show');
-    Route::get('/showItem/{id}/users', 'show')->name('Class.show');
-    Route::post('/storeItem', 'store');
-    Route::post('/updateItem/{id}', 'update');
-    Route::delete('/deleteItem/{id}', 'destroy');
-});
+    ->prefix('class')
+    ->group(function () {
+        Route::get('/index', 'index');
+        Route::get('/showItem/{id}', 'show')->name('Class.show');
+        // Route::get('/showItem/{id}/users', 'show')->name('Class.show');
+        Route::post('/storeItem', 'store');
+        Route::post('/updateItem/{id}', 'update');
+        Route::delete('/deleteItem/{id}', 'destroy');
+    });
 
 Route::controller(SectionController::class)
-->prefix('section')
-->group(function () {
-    Route::get('/index', 'index');
-    Route::get('/showItem/{section}', 'show');
-    Route::post('/storeItem', 'store');
-    Route::post('/updateItem/{section}', 'update');
-    Route::delete('/deleteItem/{section}', 'destroy');
-});
+    ->prefix('section')
+    ->group(function () {
+        Route::get('/index', 'index');
+        Route::get('/showItem/{section}', 'show');
+        Route::post('/storeItem', 'store');
+        Route::post('/updateItem/{section}', 'update');
+        Route::delete('/deleteItem/{section}', 'destroy');
+    });
 
 
 Route::controller(SubjectController::class)
-->prefix('subject')
-->group(function () {
-    Route::get('/index', [SubjectController::class, 'index']);
-    Route::get('/showItem/{id}', [SubjectController::class, 'show']);
-    Route::get('/subforclass/{id}', [SubjectController::class, 'subjecstForClass']);
-    Route::post('/updateSubject/{id}', [SubjectController::class, 'update']);
-    Route::get('/ClassForSubjects/{id}', [SubjectController::class, 'indexClassSubjects']);
-
-});
+    ->prefix('subject')
+    ->group(function () {
+        Route::get('/index', [SubjectController::class, 'index']);
+        Route::get('/showItem/{id}', [SubjectController::class, 'show']);
+        Route::get('/subforclass/{id}', [SubjectController::class, 'subjecstForClass']);
+        Route::post('/updateSubject/{id}', [SubjectController::class, 'update']);
+        Route::get('/ClassForSubjects/{id}', [SubjectController::class, 'indexClassSubjects']);
+    });
 
 Route::controller(AttendanceController::class)
-->prefix('attendance')
-// ->middleware('auth')
-->group(function ()
-{
-    Route::get('/allAttendances', [AttendanceController::class, 'index']);
-});
+    ->prefix('attendance')
+    // ->middleware('auth')
+    ->group(function () {
+        Route::get('/allAttendances', [AttendanceController::class, 'index']);
+    });
 
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
 Route::get('/allAssignments', [AssignmentController::class, 'index']);
@@ -86,3 +84,14 @@ Route::get('/allDocuments', [DocumentController::class, 'index']);
 Route::get('/allExamentions', [ExamentionController::class, 'index']);
 Route::get('/allExamResults', [ExamResultController::class, 'index']);
 Route::get('/allFees', [FeeController::class, 'index']);
+
+
+
+Route::controller(ExamentionController::class)
+    ->prefix('examention')
+    ->group(function () {
+        Route::get('/index', 'index');
+        Route::get('/show/{id}', 'show');
+        Route::post('/store', 'store');
+        Route::put('/update/{id}','update');
+    });
