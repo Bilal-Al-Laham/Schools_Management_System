@@ -66,46 +66,30 @@ Route::controller(SectionController::class)
 Route::controller(SubjectController::class)
     ->prefix('subject')
     ->group(function () {
-        Route::get('/index', [SubjectController::class, 'index']);
-        Route::get('/showItem/{id}', [SubjectController::class, 'show']);
-        Route::get('/subforclass/{id}', [SubjectController::class, 'subjecstForClass']);
-        Route::post('/updateSubject/{id}', [SubjectController::class, 'update']);
-        Route::get('/ClassForSubjects/{id}', [SubjectController::class, 'indexClassSubjects']);
+        Route::get('/index',  'index');
+        Route::get('/showItem/{id}',  'show');
+        Route::get('/subforclass/{id}',  'subjecstForClass');
+        Route::post('/updateSubject/{id}',  'update');
+        Route::get('/ClassForSubjects/{id}',  'indexClassSubjects');
     });
 
 Route::controller(AttendanceController::class)
-<<<<<<< HEAD
 ->prefix('attendance')
 ->middleware(['auth:sanctum'])
 ->group(function ()
 {
-    Route::get('/allAttendances', [AttendanceController::class, 'index']);
-    Route::post('/teachers', [AttendanceController::class, 'store_admins_and_teachers']);
-    Route::post('/students', [AttendanceController::class, 'store_teachers_students_attendance']);
-    Route::get('/showItem/{id}', [AttendanceController::class, 'show']);
-    Route::post('/updateItem/{id}', [AttendanceController::class, 'update']);
-    Route::delete('/deleteItem/{id}', [AttendanceController::class, 'destroy']);
-
-    Route::middleware(['role:admin'])->group(function (){
-
-    });
-
-    Route::middleware(['role:teacher', 'role:admin'])->group(function (){
-
-    });
+    Route::get('/allAttendances',  'index');
+    Route::post('/teachers', 'store_admins_and_teachers');
+    Route::post('/students', 'store_teachers_students_attendance');
+    Route::get('/showItem/{id}', 'show');
+    Route::post('/updateItem/{id}', 'update');
+    Route::delete('/deleteItem/{id}', 'destroy');
 });
-=======
-    ->prefix('attendance')
-    // ->middleware('auth')
-    ->group(function () {
-        Route::get('/allAttendances', [AttendanceController::class, 'index']);
-    });
->>>>>>> 93fe102198fdeedfbd7bb67bb0b45133fb2ab540
+
 
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
 Route::get('/allAssignments', [AssignmentController::class, 'index']);
 Route::get('/allDocuments', [DocumentController::class, 'index']);
-Route::get('/allExamentions', [ExamentionController::class, 'index']);
 Route::get('/allExamResults', [ExamResultController::class, 'index']);
 Route::get('/allFees', [FeeController::class, 'index']);
 
