@@ -22,6 +22,9 @@ class Examention extends Model
         'type',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
+
     public function school_class() : BelongsTo {
         return $this->belongsTo(SchoolClass::class)
         ->withDefault([
@@ -29,10 +32,9 @@ class Examention extends Model
         ]);
     }
 
-    protected $hidden = ['created_at', 'updated_at'];
 
     public function subjects() : BelongsTo {
-        return $this->belongsTo(Subject::class, 'subject_examention', 'examention_id', 'subject_id');
+        return $this->belongsTo(Subject::class,'subject_id');
     }
 
     public function examResult() : HasMany {
