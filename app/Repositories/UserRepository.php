@@ -14,7 +14,7 @@ interface UserRepositoryInterface
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function createUser(array $data)
+    public function createUser($data)
     {
         return User::create($data);
     }

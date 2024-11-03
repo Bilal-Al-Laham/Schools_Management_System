@@ -38,35 +38,19 @@ class AuthController extends Controller
         }
     }
 
-    public function registerAsPlanner($request)
+    public function registerAsTeacher(registerUserRequest $request)
     {
-        $user = User::query()->create([
-
-            'name'=> $request['name'],
-            'email'=> $request['email'],
-            'password'=> Hash::make($request['password']),
-            'blocked'=> 1,
-        ]);
-
-        $plannerRole = Role::query()->where('name','student')->first();
-        $user->assignRole($plannerRole);
-
-
-        $user= User::query()->find($user['id']);
-        $roles = [];
-        foreach ($user->roles as $role){
-            $roles[] = $role->name;
-        }
-        unset($user['roles']);
-        $user['roles'] = $roles;
-
-
-        $user['token'] = $user->createToken("personalAccessToken")->plainTextToken;
-
-        $message = "waiting for admin's permission";
-
-        return Response::Success($user, $message, 201);
+        $userData = $request->validated();
+        return $this->userService->registerAsTeacher($userData);
     }
+
+    public function teacherlogin(LoginUserRequest $request)
+    {
+        $userData = $request->validated();
+        return $this->userService->teacherlogin($userData);
+    }
+
+
 
     public function login(LoginUserRequest $request){
         $validateData = $request->validated();

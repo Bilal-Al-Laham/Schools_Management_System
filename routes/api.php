@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/adminLogin', [AuthController::class, 'Adminlogin']);
+Route::post('/teacherSignUp', [AuthController::class, 'registerAsTeacher']);
+Route::post('/teacherlogin', [AuthController::class, 'teacherlogin']);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::delete('/logout', [AuthController::class, 'logout']);
@@ -74,10 +76,23 @@ Route::controller(SubjectController::class)
 
 Route::controller(AttendanceController::class)
 ->prefix('attendance')
-// ->middleware('auth')
+->middleware(['auth:sanctum'])
 ->group(function ()
 {
     Route::get('/allAttendances', [AttendanceController::class, 'index']);
+    Route::post('/teachers', [AttendanceController::class, 'store_admins_and_teachers']);
+    Route::post('/students', [AttendanceController::class, 'store_teachers_students_attendance']);
+    Route::get('/showItem/{id}', [AttendanceController::class, 'show']);
+    Route::post('/updateItem/{id}', [AttendanceController::class, 'update']);
+    Route::delete('/deleteItem/{id}', [AttendanceController::class, 'destroy']);
+
+    Route::middleware(['role:admin'])->group(function (){
+
+    });
+
+    Route::middleware(['role:teacher', 'role:admin'])->group(function (){
+
+    });
 });
 
 Route::get('/allSchedules', [ScheduleController::class, 'index']);

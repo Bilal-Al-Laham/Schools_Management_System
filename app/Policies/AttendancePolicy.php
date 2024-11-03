@@ -21,7 +21,9 @@ class AttendancePolicy
      */
     public function view(User $user, Attendance $attendance): bool
     {
-        return $user->role === 'admin' || 'teacher';
+        return $user->roles === 'admin' ||
+            ($user->roles === 'teacher' && $attendance->user->roles === 'student') ||
+            ($user->roles === 'student' && $attendance->user_id === $user->id);
     }
 
     /**
@@ -37,7 +39,8 @@ class AttendancePolicy
      */
     public function update(User $user, Attendance $attendance): bool
     {
-        return $user->role === 'admin';
+        return $user->roles === 'admin' ||
+            ($user->roles === 'teacher' && $attendance->user->roles === 'student');
     }
 
     /**

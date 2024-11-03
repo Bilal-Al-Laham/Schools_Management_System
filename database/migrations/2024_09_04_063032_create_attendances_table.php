@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->enum('role', ['student', 'teacher']);
+            $table->string('role');
             $table->date('date');
             $table->enum('status', ['present', 'absent', 'late', 'excuse'])->default('present');
             $table->text('notes')->nullable();

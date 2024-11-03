@@ -8,6 +8,7 @@ use App\Models\SchoolClass;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -78,55 +79,23 @@ class UserService implements UserServiceInterface
         return $user;
 
     }
-    public function registerAsPlanner($request):array
+    public function registerAsTeacher( $request)
     {
-        $user = User::query()->create([
+        $user = $this->userRepository->createUser($request);
 
-            'name'=> $request['name'],
-            'email'=> $request['email'],
-            'password'=> Hash::make($request['password']),
-        ]);
+        $teacherRole = Role::query()->where('name','teacher')->first();
+        $user->assignRole($teacherRole);
 
-        // {
+        // Assign permissions associated with the role to the user
+        $permissions = $teacherRole->permissions()->pluck('name')->toArray();
+        $user->givePermissionTo($permissions);
 
-        // ||==============================================================================||
-        // ||this block of code will be put in admin's function (givePermissionToPlanner())||
-        // ||==============================================================================||
-
-
-        // // Assign permissions associated with the role to the user
-        // $permissions = $plannerRole->permissions()->pluck('name')->toArray();
-        // $user->givePermissionTo($permissions);
-
-        // // Load the user's roles and permissions
-        // $user->load('roles','permissions');
-
-        // // Reload the user instance to get updated roles and permissions
-        // $user= User::query()->find($user['id']);
-        //
-        // $permissions = [];
-        // foreach ($user->permissions as $permission){
-        //     $permissions[] = $permission->name;
-        // }
-        // unset($user['permissions']);
-        // $user['permissions'] = $permissions;
-
-        // }
-
-        // $plannerRole = Role::query()->where('name','planner')->first();
-        // $user->assignRole($plannerRole);
-
-
-        $user= User::query()->find($user['id']);
-        // $roles = [];
-        // foreach ($user->roles as $role){
-        //     $roles[] = $role->name;
-        // }
-        // unset($user['roles']);
-        // $user['roles'] = $roles;
-
-
-        $user['token'] = $user->createToken("PassportToken")->accessToken;
+        // Load the user's roles and permissions
+        $user->load('roles','permissions');
+        
+        $user['permissions'] = $permissions;
+        $user['role'] = $teacherRole->name;
+        $user['token'] = $user->createToken("taecherToken")->plainTextToken;
 
         $message = "waiting for admin's permission";
         return ['user' => $user , 'message' => $message];
@@ -160,12 +129,38 @@ class UserService implements UserServiceInterface
             return $userdata;
 
 
-              // }
+
         // else{
         //     $message = 'invalid Token';
         //     $status = 404;
         // }
         // return ['user' => $user , 'message' => $message , 'status'=>$status];
+    }
+
+    public function teacherlogin($request):array
+    {
+        $user = User::query()
+            ->where('email',$request['email'])
+            ->where('role', 'teacher')
+            ->first();
+
+        if (!is_null($user)) {
+            if (!Auth::attempt($request)) {
+                $message = 'You are not the teacher';
+                $status = 401;
+            }
+            else {
+                $user = $this->appendRolesAndPermissions($user);
+                $user['token'] = $user->createToken("taecherToken")->plainTextToken;
+                $message = 'Hello teacher';
+                $status = 200;
+            }
+        }
+        else{
+            $message = 'invalid Token';
+            $status = 404;
+        }
+        return ['user' => $user , 'message' => $message , 'status'=>$status];
     }
     public function Adminlogin($request):array
     {
@@ -180,7 +175,7 @@ class UserService implements UserServiceInterface
             }
             else {
                 $user = $this->appendRolesAndPermissions($user);
-                $user['token'] = $user->createToken("PassportToken")->accessToken;
+                $user['token'] = $user->createToken("PassportToken")->plainTextToken;
                 $message = 'Hello Admin';
                 $status = 200;
             }

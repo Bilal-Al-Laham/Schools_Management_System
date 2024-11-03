@@ -24,7 +24,7 @@ class Attendance extends Model
         return $this->belongsTo(User::class)
         ->withDefault([
             'name' => 'no users'
-        ]);
+        ]); 
     }
 }
 
