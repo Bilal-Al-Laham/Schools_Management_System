@@ -15,29 +15,43 @@ class Assignment extends Model
         'teacher_id',
         'section_id',
         'title',
+        'description',
         'due_date'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $appends = [
+        'subject_name',
+        'section_name',
+        'teacher_name',
+    ];
+
+    public function getSubjectNameAttribute()
+    {
+        return $this->subject ? $this->subject->name : null;
+    }
+
     public function subject() : BelongsTo {
-        return $this->belongsTo(Subject::class)
+        return $this->belongsTo(Subject::class, 'subject_id')
         ->withDefault([
-            'name' => 'no subjects'
+            'name' => 'no subject'
         ]);
     }
 
     public function teacher() : BelongsTo {
-        return $this->belongsTo(User::class, 'taecher_id')
+        return $this->belongsTo(User::class, 'teacher_id')
         ->withDefault([
-            'name' => 'no taechers'
+            'name' => 'no teacher'
         ]);
     }
 
     public function section() : BelongsTo {
-        return $this->belongsTo(section::class)
+        return $this->belongsTo(section::class, 'section_id')
         ->withDefault([
-            'name' => 'no sections'
+            'name' => 'no section'
         ]);
     }
+
+
 }

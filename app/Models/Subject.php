@@ -21,7 +21,7 @@ class Subject extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function teacher() : BelongsTo {
-        return $this->belongsTo(User::class, 'teacher_id')
+        return $this->belongsTo(User::class, 'teacher_id')->where('role', 'teacher')
         ->withDefault([
             'name' => 'no teacher'
         ]);

@@ -74,9 +74,9 @@ Route::controller(SubjectController::class)
     });
 
 Route::controller(AttendanceController::class)
-->prefix('attendance')
-->middleware(['auth:sanctum'])
-->group(function ()
+    ->prefix('attendance')
+    ->middleware(['auth:sanctum'])
+    ->group(function ()
 {
     Route::get('/allAttendances',  'index');
     Route::post('/teachers', 'store_admins_and_teachers');
@@ -86,9 +86,18 @@ Route::controller(AttendanceController::class)
     Route::delete('/deleteItem/{id}', 'destroy');
 });
 
+Route::controller(AssignmentController::class)
+    ->prefix('assignment')
+    ->group(function () {
+        Route::get('/index',  'index');
+        Route::get('/show/{id}',  'show');
+        Route::post('/store',  'store');
+        Route::post('/update/{assignment}',  'update');
+        Route::delete('/delete/{assignment}',  'destroy');
+    });
+
 
 Route::get('/allSchedules', [ScheduleController::class, 'index']);
-Route::get('/allAssignments', [AssignmentController::class, 'index']);
 Route::get('/allDocuments', [DocumentController::class, 'index']);
 Route::get('/allExamResults', [ExamResultController::class, 'index']);
 Route::get('/allFees', [FeeController::class, 'index']);

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Examention;
 use App\Models\Sanctum\PersonalAccessToken;
+use App\Repositories\AssignmentRepository;
+use App\Repositories\AssignmentRepositoryInterface;
 use App\Repositories\AttendanceRepository;
 use App\Repositories\AttendanceRepositoryInterface;
 use App\Repositories\ExamentionRepository;
@@ -52,6 +54,9 @@ class AppServiceProvider extends ServiceProvider
         // Attendances
         $this->app->bind(AttendanceServiceInterface::class, AttendanceService::class);
         $this->app->bind(AttendanceRepositoryInterface::class, AttendanceRepository::class);
+
+        // Assignments
+        $this->app->bind(AssignmentRepositoryInterface::class, AssignmentRepository::class);
 
         //Examentions
         $this->app->bind(ExamentionRepositoryInterface::class, ExamentionRepository::class);

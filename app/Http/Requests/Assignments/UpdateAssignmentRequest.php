@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Assignments;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +11,7 @@ class UpdateAssignmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateAssignmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'due_date' => 'required|date|after:today',
+            'subject_name' => 'required|string|exists:subjects,name',
+            'section_name' => 'nullable|string|exists:sections,name',
+            'teacher_name' => 'required|string|exists:users,name',
         ];
     }
 }

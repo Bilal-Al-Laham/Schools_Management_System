@@ -3,74 +3,49 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AssignmentResource;
 use App\Models\Assignment;
-use App\Http\Requests\StoreAssignmentRequest;
-use App\Http\Requests\UpdateAssignmentRequest;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Assignments\StoreAssignmentRequest;
+use App\Http\Requests\Assignments\UpdateAssignmentRequest;
+use App\Http\Responses\Response;
+use App\Models\section;
+use App\Models\Subject;
+use App\Models\User;
+use App\Repositories\AssignmentRepositoryInterface;
+use App\Services\AssignmentService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AssignmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        // $assignments = Assignment::orderBy('id', 'desc')->take(5)->get();
-        // $assignments = Assignment::where('due_date', '', 2)->get();
-        // dd($assignments);
+    protected $assignmentService;
+    protected $assignmentRepository;
 
-
-
-        // $assignments =  Assignment::chunk(9, function ($assignments){
-        //     foreach ($assignments as $assignment){
-        //         echo $assignment->section . '<br>';
-        //     }
-        // });
-
-        $assignments = Assignment::orderBy('created_at')->get();
-        // dd($assignments);
-        return view('index', [
-            'assignments' => $assignments
-        ]);
-        // $assignments = DB::table('assignments')->get();
-        // $assignments = DB::table('assignments')->find(1);
-
-
-        // return view('index')->with('assignments', $assignments);
-        // return view('index', compact('assignments'));
-        // return view('index', [
-        //     'assignments' => DB::table('assignments')->get()
-        // ]);
-        return view('index');
+    public function __construct(AssignmentService $assignmentService, AssignmentRepositoryInterface $assignmentRepositoryInterface) {
+        $this->assignmentService = $assignmentService;
+        $this->assignmentRepository = $assignmentRepositoryInterface;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        return $this->assignmentService->allAssignments($request);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreAssignmentRequest $request)
     {
-        //
+        $validateData = $request->validated();
+        return $this->assignmentService->createAssignment($validateData);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Assignment $assignment)
+
+    public function show($id)
     {
-        //
+        return $this->assignmentService->showAssignment($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Assignment $assignment)
     {
         //
@@ -79,16 +54,18 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAssignmentRequest $request, Assignment $assignment)
+    public function update(StoreAssignmentRequest $request, $id)
     {
-        //
+            $validated = $request->validated();
+            return $this->assignmentService->updateAssignment($validated, $id);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Assignment $assignment)
+    public function destroy($id)
     {
-        //
+        return $this->assignmentService->deleteAssignment($id);
     }
 }
