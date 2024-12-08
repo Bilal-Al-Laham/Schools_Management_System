@@ -25,8 +25,8 @@ class Schedule extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function subjects() : BelongsToMany {
-        return $this->belongsToMany(Subject::class, 'schedule_subject', 'schedule_id', 'subject_id');
+    public function subjects(): BelongsTo{
+        return $this->belongsTo(Subject::class);
     }
 
     public function section() : BelongsTo {

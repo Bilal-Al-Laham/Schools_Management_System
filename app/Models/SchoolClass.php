@@ -21,7 +21,7 @@ class SchoolClass extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function subjects() : HasMany {
-        return $this->hasMany(Subject::class, 'subject_id');
+        return $this->hasMany(Subject::class);
     }
 
     public function sections(): HasMany {

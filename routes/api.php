@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SchoolClassController;
 use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\SubjectController;
-use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -96,14 +96,6 @@ Route::controller(AssignmentController::class)
         Route::delete('/delete/{assignment}',  'destroy');
     });
 
-
-Route::get('/allSchedules', [ScheduleController::class, 'index']);
-Route::get('/allDocuments', [DocumentController::class, 'index']);
-Route::get('/allExamResults', [ExamResultController::class, 'index']);
-Route::get('/allFees', [FeeController::class, 'index']);
-
-
-
 Route::controller(ExamentionController::class)
     ->prefix('examention')
     ->group(function () {
@@ -112,3 +104,26 @@ Route::controller(ExamentionController::class)
         Route::post('/store', 'store');
         Route::put('/update/{id}','update');
     });
+
+
+
+Route::controller(ScheduleController::class)
+    ->prefix('schedule')
+    ->group(function () {
+        Route::get('/index','index');
+        Route::post('/create/{section_id}','store');
+        Route::post('/exam/{section_id}', 'createExamSchedule');
+    });
+
+
+
+
+Route::controller(DocumentController::class)
+    ->prefix('schedule')
+    ->group(function () {
+        Route::get('/allDocuments', 'index');
+});
+
+
+Route::get('/allExamResults', [ExamResultController::class, 'index']);
+Route::get('/allFees', [FeeController::class, 'index']);

@@ -35,9 +35,10 @@ class Subject extends Model
         return $this->hasMany(Examention::class);
     }
 
-    public function schedules(): BelongsToMany {
-        return $this->belongsToMany(Schedule::class, 'schedule_subject' )->withPivot( 'subject_id', 'schedule_id');
+    public function schedules(): HasMany{
+        return $this->hasMany(Schedule::class);
     }
+
 
     public function assignments() :HasMany {
         return $this->hasMany(Assignment::class);
