@@ -119,9 +119,12 @@ Route::controller(ScheduleController::class)
 
 
 Route::controller(DocumentController::class)
-    ->prefix('schedule')
+    ->prefix('document')
     ->group(function () {
         Route::get('/allDocuments', 'index');
+        Route::post('/upload', 'upload');
+        Route::post('/download/{document_id}', 'downloadDocument');
+        Route::get('/subjects/{subjectId}/documents', 'getDoucumentBySubject');
 });
 
 

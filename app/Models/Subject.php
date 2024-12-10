@@ -48,4 +48,12 @@ class Subject extends Model
         return $this->hasMany(Document::class);
     }
 
+    public function getDocuments(){
+        return $this->documents->map(function ($document) {
+            return [
+                'name' => $document->document_name,
+                'url' => $document->getDocumentUrl()
+            ];
+        });
+    }
 }

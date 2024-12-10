@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Document extends Model
 {
@@ -23,5 +24,18 @@ class Document extends Model
         ->withDefault([
             'name' => 'no subjects'
         ]);
+    }
+
+    public static function uploadDocument($file, $subjectId){
+        $filePath = $file->store('documents', 'public');
+        return self::create([
+            'subject_id' => $subjectId,
+            'document_name' => $file->getClientOriginalName(),
+            'document_path' => $filePath
+        ]);
+
+    }
+    public function getDocumentUrl(){
+        return Storage::url($this->document_path);
     }
 }
