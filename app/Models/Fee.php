@@ -12,10 +12,12 @@ class Fee extends Model
 
     protected $fillable = [
         'student_id',
-        'amount',
-        'payment_date',
-        'due_date',
-        'status'
+        'total_amount',
+        'payment_amount',
+        'remaining_amount',
+        'first_payment_date',
+        'final_payment_date',
+        'status',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

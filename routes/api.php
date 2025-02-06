@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AssignmentController;
 use App\Http\Controllers\Api\AttendanceController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\ExamentionController;
 use App\Http\Controllers\Api\ExamResultController;
@@ -10,7 +11,6 @@ use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SchoolClassController;
 use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\SubjectController;
-use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -127,6 +127,15 @@ Route::controller(DocumentController::class)
         Route::get('/subjects/{subjectId}/documents', 'getDoucumentBySubject');
 });
 
+Route::controller(FeeController::class)
+    ->prefix('fee')
+    ->group(function () {
+        Route::get('/allFees',  'index');
+        Route::get('/allFeesForStudent/{student_id}',  'show');
+        Route::post('/createFee', 'store');
+        Route::post('/proccessPayment/{student_id}',  'proccessPayment');
+        Route::get('/getPendingFees/{student_id}',  'getPendingFees');
+        Route::post('/getPaidFees/{student_id}',  'createFee');
+});
 
 Route::get('/allExamResults', [ExamResultController::class, 'index']);
-Route::get('/allFees', [FeeController::class, 'index']);

@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Events\StudentCreated;
 use App\Http\Responses\Response;
+use App\Listeners\CreateFeeForStudent;
+use App\Models\Fee;
 use App\Models\School;
 use App\Models\SchoolClass;
 use App\Models\User;
@@ -40,10 +43,10 @@ class UserService implements UserServiceInterface
         $data['password'] = Hash::make($data['password']);
 
         // cretae user
-        $user = $this->userRepository->createUser($data);
+        $student = $this->userRepository->createUser($data);
 
         // create API Token
-        $user['token'] = $user->createToken('personalAccessToken')->plainTextToken;
+        $student['token'] = $student->createToken('personalAccessToken')->plainTextToken;
 
         // Verify School Class
         $class = SchoolClass::find($data['school_class_id']);
@@ -52,31 +55,42 @@ class UserService implements UserServiceInterface
             abort(404, 'school class not found');
         }
         // reference class name into class_id
-        $user['school_class_id'] = $class->name;
-        $user['school_class'] = $class->name;
-        // assign role to user
+        $student['school_class_id'] = $class->name;
+        $student['school_class'] = $class->name;
+        // assign role to student
         $studentRole = Role::query()->where('name', 'student')->first();
 
         if (!$studentRole){
             throw new \Exception("Role 'student' not found", 500);
         }
-        $user->assignRole($studentRole);
+        $student->assignRole($studentRole);
 
-        // Assign permissions associated with the role to the user
+        // Assign permissions associated with the role to the student
         $permissions = $studentRole->permissions()->pluck('name')->toArray();
-        $user->givePermissionTo($permissions);
+        $student->givePermissionTo($permissions);
 
-        // Load the user's roles and permissions
-        $user->load('roles','permissions');
+        // Load the student's roles and permissions
+        $student->load('roles','permissions');
+        if ($student) {
+            $fee = Fee::create([
+                'student_id' => $student->id,
+                'total_amount' => 300.00,
+                'remaining_amount' => 300.00,
+                'first_payment_date' => now()->addMonths(1),
+                'final_payment_date' => now()->addMonths(5),
+                'status' => 'is not paid'
+            ]);
+        }
 
-        // Reload the user instance to get updated roles and permissions
-        $user= $this->appendRolesAndPermissions($user);
+        // Reload the student instance to get updated roles and permissions
+        $student= $this->appendRolesAndPermissions($student);
+        event(new StudentCreated($student));
 
-        // $qrCode = QrCode::format('png')->size(200)->generate($user->id);
-        // $qrCodePath = 'qrcodes/user_'.$user->id.'.png';
+        // $qrCode = QrCode::format('png')->size(200)->generate($student->id);
+        // $qrCodePath = 'qrcodes/student_'.$student->id.'.png';
         // Storage::disk('public')->put($qrCodePath,$qrCode);
-        // $user->qr_code_path = $qrCodePath;
-        return $user;
+        // $student->qr_code_path = $qrCodePath;
+        return [$student, 'student_Fee' => $fee];
 
     }
     public function registerAsTeacher( $request)
@@ -92,7 +106,7 @@ class UserService implements UserServiceInterface
 
         // Load the user's roles and permissions
         $user->load('roles','permissions');
-        
+
         $user['permissions'] = $permissions;
         $user['role'] = $teacherRole->name;
         $user['token'] = $user->createToken("taecherToken")->plainTextToken;

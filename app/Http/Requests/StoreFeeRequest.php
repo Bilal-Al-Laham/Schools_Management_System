@@ -11,7 +11,7 @@ class StoreFeeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreFeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'student_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric',
+            'payment_date' => 'nullable|date',
+            'due_date' => 'required|date',
+            'status' => 'required|in:is paid,is not paid',
+            'payment_method' => 'nullable|string',
+            'transaction_id' => 'nullable|string',
         ];
     }
 }

@@ -13,6 +13,12 @@ class FeeSeeder extends Seeder
      */
     public function run(): void
     {
-        Fee::factory()->count(3)->create();
+        Fee::create([
+            'student_id' => 1,
+            'total_amount' => 300.00,
+            'remaining_amount' => 300.00,
+            'first_payment_date' => now()->addMonths(1),
+            'final_payment_date' => now()->addMonths(5)
+        ]);
     }
 }
